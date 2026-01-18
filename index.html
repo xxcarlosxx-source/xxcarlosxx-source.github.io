@@ -74,6 +74,7 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+  transition: opacity 0.2s;
 }
 .card {
   width: 120px;
@@ -88,13 +89,6 @@ body {
 
 /* ===== PÁGINA ATAQUE ===== */
 #attackPage { display: none; }
-#atkGif {
-  width: 300px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-/* ===== VIDEO ===== */
 #atkVideo iframe {
   width: 100%;
   max-width: 560px;
@@ -144,7 +138,6 @@ body {
   <input id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
 </div>
 
-<!-- ===== BOTÕES DE TIPO (16) ===== -->
 <div class="types">
   <button class="type all" onclick="setType('all')">Todos</button>
   <button class="type normal" onclick="setType('normal')">Normal</button>
@@ -169,7 +162,6 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<!-- ===== PÁGINA DO ATAQUE ===== -->
 <div id="attackPage">
   <button class="back" onclick="closeAttack()">⬅ Voltar</button>
   <h1 id="atkName"></h1>
@@ -197,9 +189,7 @@ const attacks = [
   category: "offense",
   video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
   description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-  slots: [
-    ["Smeargle","Dhelmise"], ["Metagross"], [], [], [], [], [], [], [], []
-  ]
+  slots: [["Smeargle","Dhelmise"], ["Metagross"], [], [], [], [], [], [], [], []]
 },
 {
   name: "Tackle",
@@ -283,7 +273,7 @@ const attacks = [
 }
 ];
 
-// ===== RENDERIZAÇÃO DOS CARDS =====
+// ===== RENDERIZAÇÃO =====
 let currentType = "all";
 
 function renderCards() {
@@ -294,6 +284,7 @@ function renderCards() {
   attacks.forEach((atk, i) => {
     if ((currentType === "all" || atk.type === currentType) &&
         atk.name.toLowerCase().includes(search)) {
+
       cards.innerHTML += `
         <div class="card" onclick="openAttack(${i})">
           <div>${atk.name}</div>
@@ -337,8 +328,8 @@ function openAttack(i) {
   }
 
   document.querySelector(".cards").style.opacity = 0;
-  attackPage.style.display = "block";
   setTimeout(()=>{document.querySelector(".cards").style.display="none";}, 200);
+  attackPage.style.display = "block";
 }
 
 function closeAttack() {
@@ -348,7 +339,6 @@ function closeAttack() {
   document.querySelector(".cards").style.opacity = 1;
 }
 
-// ===== INIT =====
 renderCards();
 </script>
 
