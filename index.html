@@ -85,12 +85,6 @@ body {
   text-align: center;
 }
 .card:hover { transform: scale(1.05); }
-.card img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 5px;
-  border-radius: 6px;
-}
 
 /* ===== PÁGINA ATAQUE ===== */
 #attackPage { display: none; }
@@ -180,7 +174,6 @@ body {
   <button class="back" onclick="closeAttack()">⬅ Voltar</button>
   <h1 id="atkName"></h1>
   <div id="atkType" style="font-weight:bold; margin-bottom:5px;"></div>
-  <img id="atkGif">
   <div id="atkVideo"></div>
   <p id="atkDesc"></p>
   <div id="atkSlots"></div>
@@ -193,12 +186,10 @@ const attacks = [
   name: "Anchor Shot",
   type: "steel",
   category: "offense",
-  gif: "anchor-shot.gif",
-  icon: "", // Coloque o link da imagem aqui
-  video: "",
+  video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
   description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
   slots: [
-    ["Smeargle", "Dhelmise"],
+    ["Smeargle","Dhelmise"],
     ["Metagross"],
     [], [], [], [], [], [], [], []
   ]
@@ -207,8 +198,6 @@ const attacks = [
   name: "Tackle",
   type: "normal",
   category: "offense",
-  gif: "https://drive.google.com/file/d/1e6iZi_KTXPZP8JDMuuaeLGGw1cUXkcH5/view?usp=drive_link",
-  icon: "https://drive.google.com/file/d/1e6iZi_KTXPZP8JDMuuaeLGGw1cUXkcH5/view?usp=drive_link",
   video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
   description: "teste",
   slots: [
@@ -219,8 +208,6 @@ const attacks = [
   name: "Headbutt",
   type: "normal",
   category: "offense",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -231,8 +218,6 @@ const attacks = [
   name: "Psychic",
   type: "psychic",
   category: "special",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -243,8 +228,6 @@ const attacks = [
   name: "Confusion",
   type: "psychic",
   category: "special",
-  gif: "",
-  icon: "",
   video: "",
   description: "Causa um enorme dano em área",
   slots: [
@@ -255,8 +238,6 @@ const attacks = [
   name: "Meteor Mash",
   type: "steel",
   category: "offense",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -267,8 +248,6 @@ const attacks = [
   name: "Thunder",
   type: "electric",
   category: "special",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -279,8 +258,6 @@ const attacks = [
   name: "Hyper Beam",
   type: "normal",
   category: "special",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -291,8 +268,6 @@ const attacks = [
   name: "Earthquake",
   type: "ground",
   category: "offense",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -303,8 +278,6 @@ const attacks = [
   name: "Recover",
   type: "normal",
   category: "special",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -315,8 +288,6 @@ const attacks = [
   name: "Future Sight",
   type: "psychic",
   category: "special",
-  gif: "",
-  icon: "",
   video: "",
   description: "teste",
   slots: [
@@ -327,13 +298,10 @@ const attacks = [
   name: "Surf",
   type: "water",
   category: "special",
-  gif: "surf.gif",
-  icon: "",
   video: "",
   description: "Ataque Water que atinge todos os oponentes.",
   slots: [
-    ["Lapras"],
-    ["Blastoise"]
+    ["Lapras"], ["Blastoise"]
   ]
 }
 ];
@@ -352,7 +320,6 @@ function renderCards() {
 
       cards.innerHTML += `
         <div class="card" onclick="openAttack(${i})">
-          <img src="${atk.icon || atk.gif}">
           <div>${atk.name}</div>
         </div>
       `;
@@ -372,7 +339,6 @@ function openAttack(i) {
   atkType.innerText = atk.type.toUpperCase();
   atkType.className = atk.type;
 
-  atkGif.src = atk.gif;
   atkDesc.innerText = atk.description;
 
   atkVideo.innerHTML = "";
