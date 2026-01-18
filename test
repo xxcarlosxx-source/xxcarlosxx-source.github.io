@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>PokéMoves Wiki</title>
+</head>
+<body>
+
+<h1>PokéMoves Wiki</h1>
+<p>Wiki simples de ataques Pokémon</p>
+
+<ul>
+  <li><a href="anchor-shot.html">Anchor Shot</a></li>
+</ul>
+
+</body>
+</html>
