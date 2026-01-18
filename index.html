@@ -141,4 +141,132 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<!-- ===== PÁGINA DO ATAQUE
+<!-- ===== PÁGINA DO ATAQUE ===== -->
+<div id="attackPage">
+  <h1 id="atkName"></h1>
+  <img id="atkGif">
+  <div id="atkVideo"></div>
+  <p id="atkDesc"></p>
+  <div id="atkSlots"></div>
+  <button class="back" onclick="closeAttack()">⬅ Voltar</button>
+</div>
+
+<script>
+// ===== DADOS DOS ATAQUES =====
+const attacks = [
+ {
+  name: "Anchor Shot",
+  type: "steel",
+  category: "offense",
+  gif: "anchor-shot.gif",
+  video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
+  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+  slots: [
+    ["Smeargle", "Dhelmise"], // M1
+    ["Metagross"],           // M2
+    [],                      // M3
+    ["Scizor"],              // M4
+    [], [], [], [], [], []   // M5 ao M10
+  ]
+ },
+ {
+  name: "Fire Blast",
+  type: "fire",
+  category: "special",
+  gif: "fire-blast.gif",
+  video: "",
+  description: "Ataque Fire poderoso com chance de Burn.",
+  slots: [
+    ["Charizard"], // M1
+    ["Typhlosion"] // M2
+  ]
+ },
+ {
+  name: "Surf",
+  type: "water",
+  category: "special",
+  gif: "surf.gif",
+  video: "",
+  description: "Ataque Water que atinge todos os oponentes.",
+  slots: [
+    ["Lapras"],
+    ["Blastoise"]
+  ]
+ }
+];
+
+let currentType = "all";
+
+// ===== RENDER CARDS =====
+function renderCards() {
+  const cards = document.getElementById("cards");
+  const search = searchInput.value.toLowerCase();
+  cards.innerHTML = "";
+
+  attacks.forEach((atk, i) => {
+    if ((currentType === "all" || atk.type === currentType) &&
+        atk.name.toLowerCase().includes(search)) {
+
+      cards.innerHTML += `
+        <div class="card" onclick="openAttack(${i})">
+          <img src="${atk.gif}">
+          <h3>${atk.name}</h3>
+        </div>
+      `;
+    }
+  });
+}
+
+function setType(type) {
+  currentType = type;
+  renderCards();
+}
+
+// ===== ABRIR ATAQUE =====
+function openAttack(i) {
+  const atk = attacks[i];
+
+  atkName.innerText = atk.name;
+  atkGif.src = atk.gif;
+  atkDesc.innerText = atk.description;
+
+  // VIDEO
+  atkVideo.innerHTML = "";
+  if (atk.video) {
+    const id = atk.video.split("v=")[1];
+    atkVideo.innerHTML = `
+      <iframe
+        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    `;
+  }
+
+  // SLOTS M1–M10
+  atkSlots.innerHTML = "";
+  for (let j = 0; j < 10; j++) {
+    const list = atk.slots[j] || [];
+    atkSlots.innerHTML += `
+      <div class="slot">
+        <strong>M${j + 1}:</strong> ${list.length ? list.join(", ") : "—"}
+      </div>
+    `;
+  }
+
+  document.querySelector(".cards").style.display = "none";
+  attackPage.style.display = "block";
+}
+
+function closeAttack() {
+  attackPage.style.display = "none";
+  atkVideo.innerHTML = "";
+  document.querySelector(".cards").style.display = "flex";
+}
+
+renderCards();
+</script>
+
+</body>
+</html>
