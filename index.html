@@ -77,18 +77,51 @@ body {
   transition: opacity 0.2s;
 }
 .card {
-  width: 120px;
+  width: 140px;
+  height: 80px;
   background: #222;
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform .2s;
+  transition: transform .2s, background .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
   text-align: center;
 }
-.card:hover { transform: scale(1.05); }
+.card:hover { 
+  transform: scale(1.05);
+  background: #333;
+}
+
+/* ===== FUNDO ATAQUE ===== */
+#attackOverlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  z-index: 5;
+  overflow-y: auto;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
 
 /* ===== PÁGINA ATAQUE ===== */
-#attackPage { display: none; }
+#attackPage {
+  position: relative;
+  max-width: 600px;
+  margin: auto;
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+  color: white;
+}
+
+/* ===== VIDEO ===== */
 #atkVideo iframe {
   width: 100%;
   max-width: 560px;
@@ -100,9 +133,7 @@ body {
 
 /* ===== SLOTS M1–M10 ===== */
 #atkSlots {
-  max-width: 500px;
-  margin: 20px auto;
-  text-align: left;
+  margin-top: 15px;
 }
 .slot {
   background: #1b1b1b;
@@ -162,13 +193,16 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<div id="attackPage">
-  <button class="back" onclick="closeAttack()">⬅ Voltar</button>
-  <h1 id="atkName"></h1>
-  <div id="atkType" style="font-weight:bold; margin-bottom:5px;"></div>
-  <div id="atkVideo"></div>
-  <p id="atkDesc"></p>
-  <div id="atkSlots"></div>
+<!-- ===== FUNDO E PÁGINA ATAQUE ===== -->
+<div id="attackOverlay" onclick="closeAttack()">
+  <div id="attackPage" onclick="event.stopPropagation()">
+    <button class="back" onclick="closeAttack()">⬅ Voltar</button>
+    <h1 id="atkName"></h1>
+    <div id="atkType" style="font-weight:bold; margin-bottom:5px;"></div>
+    <div id="atkVideo"></div>
+    <p id="atkDesc"></p>
+    <div id="atkSlots"></div>
+  </div>
 </div>
 
 <script>
@@ -179,7 +213,7 @@ const atkType = document.getElementById("atkType");
 const atkDesc = document.getElementById("atkDesc");
 const atkVideo = document.getElementById("atkVideo");
 const atkSlots = document.getElementById("atkSlots");
-const attackPage = document.getElementById("attackPage");
+const attackOverlay = document.getElementById("attackOverlay");
 
 // ===== DADOS DOS ATAQUES =====
 const attacks = [
@@ -206,70 +240,6 @@ const attacks = [
   video: "",
   description: "teste",
   slots: [[], ["Metagross"], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Psychic",
-  type: "psychic",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [[], [], ["Metagross"], [], [], [], [], [], [], []]
-},
-{
-  name: "Confusion",
-  type: "psychic",
-  category: "special",
-  video: "",
-  description: "Causa um enorme dano em área",
-  slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
-},
-{
-  name: "Meteor Mash",
-  type: "steel",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [[], [], [], [], ["Metagross"], [], [], [], [], []]
-},
-{
-  name: "Thunder",
-  type: "electric",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [[], [], [], [], [], ["Metagross"], [], [], [], []]
-},
-{
-  name: "Hyper Beam",
-  type: "normal",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [[], [], [], [], [], [], ["Metagross"], [], [], []]
-},
-{
-  name: "Earthquake",
-  type: "ground",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [[], [], [], [], [], [], [], ["Metagross"], [], []]
-},
-{
-  name: "Recover",
-  type: "normal",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [[], [], [], [], [], [], [], [], ["Metagross"], []]
-},
-{
-  name: "Future Sight",
-  type: "psychic",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [[], [], [], [], [], [], [], [], [], ["Metagross"]]
 }
 ];
 
@@ -327,16 +297,17 @@ function openAttack(i) {
     `;
   }
 
+  attackOverlay.style.display = "block";
   document.querySelector(".cards").style.opacity = 0;
   setTimeout(()=>{document.querySelector(".cards").style.display="none";}, 200);
-  attackPage.style.display = "block";
 }
 
 function closeAttack() {
-  attackPage.style.display = "none";
+  attackOverlay.style.display = "none";
   atkVideo.innerHTML = "";
-  document.querySelector(".cards").style.display = "flex";
-  document.querySelector(".cards").style.opacity = 1;
+  const cardsEl = document.querySelector(".cards");
+  cardsEl.style.display = "flex";
+  setTimeout(()=>{cardsEl.style.opacity = 1;}, 50);
 }
 
 renderCards();
