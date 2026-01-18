@@ -228,103 +228,12 @@ let activeTypeButton = null;
 
 // ===== TODOS OS ATAQUES =====
 const attacks = [
-  {
-    name: "Anchor Shot",
-    type: "steel",
-    category: "offense",
-    video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
-    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-    slots: [["Smeargle","Dhelmise"], ["Metagross"], [], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Tackle",
-    type: "normal",
-    category: "offense",
-    video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
-    description: "teste",
-    slots: [["Metagross"], [], [], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Headbutt",
-    type: "normal",
-    category: "offense",
-    video: "",
-    description: "teste",
-    slots: [[], ["Metagross"], [], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Psychic",
-    type: "psychic",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], ["Metagross"], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Confusion",
-    type: "psychic",
-    category: "special",
-    video: "",
-    description: "Causa um enorme dano em área",
-    slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
-  },
-  {
-    name: "Meteor Mash",
-    type: "steel",
-    category: "offense",
-    video: "",
-    description: "teste",
-    slots: [["Metagross","Lucario"], [], [], [], ["Metagross"], [], [], [], [], []]
-  },
-  {
-    name: "Thunder",
-    type: "electric",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], ["Metagross","Lucario"], [], [], [], []]
-  },
-  {
-    name: "Hyper Beam",
-    type: "normal",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], [], ["Metagross","Lucario"], [], [], []]
-  },
-  {
-    name: "Earthquake",
-    type: "ground",
-    category: "offense",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], [], [], ["Metagross","Lucario"], [], []]
-  },
-  {
-    name: "Recover",
-    type: "normal",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], [], [], [], ["Metagross","Lucario"], []]
-  },
-  {
-    name: "Future Sight",
-    type: "psychic",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], [], [], [], [], ["Metagross","Lucario"]]
-  },
-  {
-    name: "Giga Impact",
-    type: "normal",
-    category: "offense",
-    video: "",
-    description: "teste",
-    slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-  },
-  // ... Coloque aqui o restante dos ataques que você me passou ...
+  // Cole aqui todos os ataques que você me passou anteriormente
+  // Certifique-se de que cada ataque tenha:
+  // type: tipo do ataque (fire, water, etc)
+  // typeCategory: categoria de efeito (cure, heal, target, area, jump)
+  // category: offense/special (opcional)
+  // name, video, description, slots
 ];
 
 // ===== RENDER CARDS =====
@@ -349,19 +258,31 @@ function renderCards() {
 
 // ===== TIPOS =====
 function setType(type, button) {
-  currentType = type;
-  if(activeTypeButton) activeTypeButton.classList.remove("activeType");
-  button.classList.add("activeType");
-  activeTypeButton = button;
+  if(currentType === type) {
+    currentType = "all";
+    button.classList.remove("activeType");
+    activeTypeButton = null;
+  } else {
+    currentType = type;
+    if(activeTypeButton) activeTypeButton.classList.remove("activeType");
+    button.classList.add("activeType");
+    activeTypeButton = button;
+  }
   renderCards();
 }
 
 // ===== CATEGORIAS =====
 function setCategoryFilter(category, button) {
-  currentCategory = category;
-  if(activeCategoryButton) activeCategoryButton.classList.remove("activeCategory");
-  button.classList.add("activeCategory");
-  activeCategoryButton = button;
+  if(currentCategory === category) {
+    currentCategory = "all";
+    button.classList.remove("activeCategory");
+    activeCategoryButton = null;
+  } else {
+    currentCategory = category;
+    if(activeCategoryButton) activeCategoryButton.classList.remove("activeCategory");
+    button.classList.add("activeCategory");
+    activeCategoryButton = button;
+  }
   renderCards();
 }
 
