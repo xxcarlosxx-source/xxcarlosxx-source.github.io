@@ -126,8 +126,10 @@ body {
 
 #atkType {
   margin: 10px 0;
-  color: #FFD700;
   font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
 }
 
 .back {
@@ -178,7 +180,7 @@ body {
 <!-- ===== PÁGINA DO ATAQUE ===== -->
 <div id="attackPage">
   <h1 id="atkName"></h1>
-  <p id="atkType"></p> <!-- Tipo do ataque agora aparece -->
+  <p id="atkType"></p> <!-- Agora o tipo aparece colorido -->
   <img id="atkGif">
   <div id="atkVideo"></div>
   <p id="atkDesc"></p>
@@ -369,7 +371,11 @@ function setType(type) {
 function openAttack(i) {
   const atk = attacks[i];
   atkName.innerText = atk.name;
-  atkType.innerText = "Type: " + atk.type; // ✅ Agora exibe o tipo do ataque
+
+  // ✅ tipo do ataque com cor correspondente
+  atkType.innerText = atk.type;
+  atkType.className = atk.type;
+
   atkGif.src = atk.gif;
   atkDesc.innerText = atk.description;
 
@@ -390,20 +396,3 @@ function openAttack(i) {
         <strong>M${j + 1}:</strong> ${list.length ? list.join(", ") : "—"}
       </div>
     `;
-  }
-
-  document.querySelector(".cards").style.display = "none";
-  attackPage.style.display = "block";
-}
-
-function closeAttack() {
-  attackPage.style.display = "none";
-  atkVideo.innerHTML = "";
-  document.querySelector(".cards").style.display = "flex";
-}
-
-renderCards();
-</script>
-
-</body>
-</html>
