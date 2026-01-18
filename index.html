@@ -58,21 +58,8 @@ body {
   color: white;
 }
 
-.normal { background: #A8A878; color: #000; }
 .fire { background: #F08030; }
 .water { background: #6890F0; }
-.grass { background: #78C850; }
-.electric { background: #F8D030; color: #000; }
-.ice { background: #98D8D8; color: #000; }
-.fighting { background: #C03028; }
-.poison { background: #A040A0; }
-.ground { background: #E0C068; color: #000; }
-.flying { background: #A890F0; color: #000; }
-.psychic { background: #F85888; }
-.bug { background: #A8B820; color: #000; }
-.rock { background: #B8A038; color: #000; }
-.ghost { background: #705898; }
-.dragon { background: #7038F8; }
 .steel { background: #B8B8D0; color: #000; }
 .all { background: #444; }
 
@@ -109,6 +96,7 @@ body {
 /* ===== PÁGINA DO ATAQUE ===== */
 #attackPage {
   display: none;
+  white-space: pre-line; /* 🔥 importante para quebrar linhas */
 }
 
 #attackPage img {
@@ -146,7 +134,7 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<!-- PÁGINA DO ATAQUE -->
+<!-- ===== PÁGINA DO ATAQUE ===== -->
 <div id="attackPage">
   <h1 id="atkName"></h1>
   <img id="atkGif">
@@ -158,24 +146,24 @@ body {
 <script>
 // ===== DADOS DOS ATAQUES =====
 const attacks = [
- {
-  name: "Anchor Shot",
-  type: "steel",
-  gif: "anchor-shot.gif",
-  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-  slots: {
-    M1: ["Smeargle", "Dhelmise"],
-    M2: ["Metagross"],
-    M3: [],
-    M4: ["Scizor"],
-    M5: [],
-    M6: [],
-    M7: [],
-    M8: [],
-    M9: [],
-    M10: []
-  }
-},
+  {
+    name: "Anchor Shot",
+    type: "steel",
+    gif: "anchor-shot.gif",
+    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+    slots: {
+      M1: ["Smeargle", "Dhelmise"],
+      M2: ["Metagross"],
+      M3: [],
+      M4: ["Scizor"],
+      M5: [],
+      M6: [],
+      M7: [],
+      M8: [],
+      M9: [],
+      M10: []
+    }
+  },
   {
     name: "Fire Blast",
     type: "fire",
@@ -228,8 +216,26 @@ function openAttack(i) {
   document.getElementById("atkName").innerText = atk.name;
   document.getElementById("atkGif").src = atk.gif;
   document.getElementById("atkDesc").innerText = atk.description;
-  document.getElementById("atkUsers").innerText =
-    "Pokémon: " + atk.users.join(", ");
+
+  let text = "";
+
+  // 👉 ataques com slots (M1–M10)
+  if (atk.slots) {
+    for (let key in atk.slots) {
+      if (atk.slots[key].length > 0) {
+        text += `${key}: ${atk.slots[key].join(", ")}\n`;
+      } else {
+        text += `${key}: —\n`;
+      }
+    }
+  }
+
+  // 👉 ataques antigos com users
+  else if (atk.users) {
+    text = "Pokémon: " + atk.users.join(", ");
+  }
+
+  document.getElementById("atkSlots").innerText = text;
 
   document.querySelector(".cards").style.display = "none";
   document.getElementById("attackPage").style.display = "block";
