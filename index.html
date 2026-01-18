@@ -124,6 +124,12 @@ body {
 }
 .slot strong { color: #f8d030; }
 
+#atkType {
+  margin: 10px 0;
+  color: #FFD700;
+  font-weight: bold;
+}
+
 .back {
   padding: 10px 20px;
   border: none;
@@ -172,6 +178,7 @@ body {
 <!-- ===== PÁGINA DO ATAQUE ===== -->
 <div id="attackPage">
   <h1 id="atkName"></h1>
+  <p id="atkType"></p> <!-- Tipo do ataque agora aparece -->
   <img id="atkGif">
   <div id="atkVideo"></div>
   <p id="atkDesc"></p>
@@ -180,7 +187,7 @@ body {
 </div>
 
 <script>
-// ===== DADOS DOS ATAQUES (INALTERADOS) =====
+// ===== DADOS DOS ATAQUES =====
 const attacks = [
  {
   name: "Anchor Shot",
@@ -196,8 +203,8 @@ const attacks = [
     ["Scizor"],
     [], [], [], [], [], []
   ]
- },
-  {
+},
+{
   name: "test",
   type: "steel",
   category: "offense",
@@ -205,19 +212,10 @@ const attacks = [
   video: "",
   description: "test",
   slots: [
-    ["Metagross"], // M1
-    [],            // M2
-    [],            // M3
-    [],            // M4
-    [],            // M5
-    [],            // M6
-    [],            // M7
-    [],            // M8
-    [],            // M9
-    []             // M10
+    ["Metagross"], [], [], [], [], [], [], [], [], []
   ]
 },
-  {
+{
   name: "Tackle",
   type: "normal",
   category: "offense",
@@ -327,8 +325,7 @@ const attacks = [
     [], [], [], [], [], [], [], [], [], ["Metagross"]
   ]
 },
-
- {
+{
   name: "Surf",
   type: "water",
   category: "special",
@@ -339,7 +336,7 @@ const attacks = [
     ["Lapras"],
     ["Blastoise"]
   ]
- }
+}
 ];
 
 let currentType = "all";
@@ -372,6 +369,7 @@ function setType(type) {
 function openAttack(i) {
   const atk = attacks[i];
   atkName.innerText = atk.name;
+  atkType.innerText = "Type: " + atk.type; // ✅ Agora exibe o tipo do ataque
   atkGif.src = atk.gif;
   atkDesc.innerText = atk.description;
 
