@@ -86,10 +86,7 @@ body {
   transition: transform .2s;
 }
 .card:hover { transform: scale(1.05); }
-.card img {
-  width: 100%;
-  border-radius: 6px;
-}
+.card img { width: 100%; border-radius: 6px; }
 
 /* ===== PÁGINA ATAQUE (MODAL) ===== */
 #attackPage {
@@ -147,6 +144,7 @@ body {
 }
 .slot strong { color: #f8d030; }
 
+/* TIPO ATAQUE */
 #atkType {
   margin: 10px 0;
   font-weight: bold;
@@ -168,7 +166,6 @@ body {
   cursor: pointer;
   z-index: 1000;
 }
-
 </style>
 </head>
 
@@ -229,20 +226,155 @@ const atkSlots = document.getElementById("atkSlots");
 const searchInput = document.getElementById("searchInput");
 const cardsContainer = document.getElementById("cards");
 
+// ===== DADOS DOS ATAQUES (MODELO ANTIGO) =====
 const attacks = [
- { name: "Anchor Shot", type: "steel", category: "offense", gif: "anchor-shot.gif", video: "", description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.", slots:[["Smeargle","Dhelmise"],["Metagross"],[],["Scizor"],[],[],[],[],[],[]]},
- { name: "test", type: "steel", category: "offense", gif: "", video: "", description: "test", slots:[["Metagross"],[],[],[],[],[],[],[],[],[]]},
- { name: "Tackle", type: "normal", category: "offense", gif: "", video: "", description: "teste", slots:[["Metagross"],[],[],[],[],[],[],[],[],[]]},
- { name: "Headbutt", type: "normal", category: "offense", gif: "", video: "", description: "teste", slots:[[],["Metagross"],[],[],[],[],[],[],[],[]]},
- { name: "Psychic", type: "psychic", category: "special", gif: "", video: "", description: "teste", slots:[[],[],["Metagross"],[],[],[],[],[],[],[]]},
- { name: "Confusion", type: "psychic", category: "special", gif: "", video: "", description: "Causa um enorme dano em área", slots:[[],[],[],["Metagross"],[],[],[],[],[],[]]},
- { name: "Meteor Mash", type: "steel", category: "offense", gif: "", video: "", description: "teste", slots:[[],[],[],[],["Metagross"],[],[],[],[],[]]},
- { name: "Thunder", type: "electric", category: "special", gif: "", video: "", description: "teste", slots:[[],[],[],[],[],["Metagross"],[],[],[],[]]},
- { name: "Hyper Beam", type: "normal", category: "special", gif: "", video: "", description: "teste", slots:[[],[],[],[],[],[],["Metagross"],[],[],[]]},
- { name: "Earthquake", type: "ground", category: "offense", gif: "", video: "", description: "teste", slots:[[],[],[],[],[],[],[],["Metagross"],[],[]]},
- { name: "Recover", type: "normal", category: "special", gif: "", video: "", description: "teste", slots:[[],[],[],[],[],[],[],[],["Metagross"],[]]},
- { name: "Future Sight", type: "psychic", category: "special", gif: "", video: "", description: "teste", slots:[[],[],[],[],[],[],[],[],[],["Metagross"]]},
- { name: "Surf", type: "water", category: "special", gif: "surf.gif", video: "", description: "Ataque Water que atinge todos os oponentes.", slots:[["Lapras"],["Blastoise"]]}
+ {
+  name: "Anchor Shot",
+  type: "steel",
+  category: "offense",
+  gif: "anchor-shot.gif",
+  video: "",
+  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+  slots: [
+    ["Smeargle","Dhelmise"], // M1
+    ["Metagross"],           // M2
+    [],                      // M3
+    ["Scizor"],              // M4
+    [], [], [], [], [], []   // M5-M10
+  ]
+ },
+ {
+  name: "test",
+  type: "steel",
+  category: "offense",
+  gif: "",
+  video: "",
+  description: "test",
+  slots: [
+    ["Metagross"], [], [], [], [], [], [], [], [], []
+  ]
+ },
+ {
+  name: "Tackle",
+  type: "normal",
+  category: "offense",
+  gif: "",
+  video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
+  description: "teste",
+  slots: [
+    ["Metagross"], [], [], [], [], [], [], [], [], []
+  ]
+ },
+ {
+  name: "Headbutt",
+  type: "normal",
+  category: "offense",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], ["Metagross"], [], [], [], [], [], [], [], []
+  ]
+ },
+ {
+  name: "Psychic",
+  type: "psychic",
+  category: "special",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], [], ["Metagross"], [], [], [], [], [], [], []
+  ]
+ },
+ {
+  name: "Confusion",
+  type: "psychic",
+  category: "special",
+  gif: "",
+  video: "",
+  description: "Causa um enorme dano em área",
+  slots: [
+    [], [], [], ["Metagross"], [], [], [], [], [], []
+  ]
+ },
+ {
+  name: "Meteor Mash",
+  type: "steel",
+  category: "offense",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], [], [], [], ["Metagross"], [], [], [], [], []
+  ]
+ },
+ {
+  name: "Thunder",
+  type: "electric",
+  category: "special",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], [], [], [], [], ["Metagross"], [], [], [], []
+  ]
+ },
+ {
+  name: "Hyper Beam",
+  type: "normal",
+  category: "special",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], [], [], [], [], [], ["Metagross"], [], [], []
+  ]
+ },
+ {
+  name: "Earthquake",
+  type: "ground",
+  category: "offense",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], [], [], [], [], [], [], ["Metagross"], [], []
+  ]
+ },
+ {
+  name: "Recover",
+  type: "normal",
+  category: "special",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], [], [], [], [], [], [], [], ["Metagross"], []
+  ]
+ },
+ {
+  name: "Future Sight",
+  type: "psychic",
+  category: "special",
+  gif: "",
+  video: "",
+  description: "teste",
+  slots: [
+    [], [], [], [], [], [], [], [], [], ["Metagross"]
+  ]
+ },
+ {
+  name: "Surf",
+  type: "water",
+  category: "special",
+  gif: "surf.gif",
+  video: "",
+  description: "Ataque Water que atinge todos os oponentes.",
+  slots: [
+    ["Lapras"], ["Blastoise"]
+  ]
+ }
 ];
 
 let currentType = "all";
@@ -254,7 +386,6 @@ function renderCards() {
   attacks.forEach((atk, i) => {
     if ((currentType === "all" || atk.type === currentType) &&
         atk.name.toLowerCase().includes(search)) {
-
       cardsContainer.innerHTML += `
         <div class="card" onclick="openAttack(${i})">
           <img src="${atk.gif}">
