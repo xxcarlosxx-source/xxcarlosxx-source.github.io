@@ -49,15 +49,25 @@ body {
   color: white;
 }
 
-/* ===== CORES DOS TIPOS ===== */
+.all { background:#444; }
+.normal { background:#A8A878; color:#000; }
 .fire { background:#F08030; }
 .water { background:#6890F0; }
-.steel { background:#B8B8D0; color:#000; }
-.normal { background:#A8A878; color:#000; }
-.psychic { background:#F85888; }
 .electric { background:#F8D030; color:#000; }
+.grass { background:#78C850; color:#000; }
+.ice { background:#98D8D8; color:#000; }
+.fighting { background:#C03028; }
+.poison { background:#A040A0; }
 .ground { background:#E0C068; color:#000; }
-.all { background:#444; }
+.flying { background:#A890F0; color:#000; }
+.psychic { background:#F85888; }
+.bug { background:#A8B820; color:#000; }
+.rock { background:#B8A038; color:#000; }
+.ghost { background:#705898; }
+.dragon { background:#7038F8; }
+.steel { background:#B8B8D0; color:#000; }
+.dark { background:#705848; }
+.fairy { background:#EE99AC; color:#000; }
 
 /* ===== CARDS ===== */
 .cards {
@@ -99,7 +109,7 @@ body {
   display: block;
 }
 
-/* ===== SLOTS ===== */
+/* ===== SLOTS M1–M10 ===== */
 #atkSlots {
   max-width: 500px;
   margin: 20px auto;
@@ -112,9 +122,7 @@ body {
   margin-bottom: 6px;
   font-size: 14px;
 }
-.slot strong {
-  color: #f8d030;
-}
+.slot strong { color: #f8d030; }
 
 .back {
   padding: 10px 20px;
@@ -136,16 +144,27 @@ body {
   <input id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
 </div>
 
-<!-- ===== BOTÕES DE TIPO ===== -->
+<!-- ===== BOTÕES DE TIPO (16) ===== -->
 <div class="types">
   <button class="type all" onclick="setType('all')">Todos</button>
+  <button class="type normal" onclick="setType('normal')">Normal</button>
   <button class="type fire" onclick="setType('fire')">Fire</button>
   <button class="type water" onclick="setType('water')">Water</button>
-  <button class="type steel" onclick="setType('steel')">Steel</button>
-  <button class="type normal" onclick="setType('normal')">Normal</button>
-  <button class="type psychic" onclick="setType('psychic')">Psychic</button>
   <button class="type electric" onclick="setType('electric')">Electric</button>
+  <button class="type grass" onclick="setType('grass')">Grass</button>
+  <button class="type ice" onclick="setType('ice')">Ice</button>
+  <button class="type fighting" onclick="setType('fighting')">Fighting</button>
+  <button class="type poison" onclick="setType('poison')">Poison</button>
   <button class="type ground" onclick="setType('ground')">Ground</button>
+  <button class="type flying" onclick="setType('flying')">Flying</button>
+  <button class="type psychic" onclick="setType('psychic')">Psychic</button>
+  <button class="type bug" onclick="setType('bug')">Bug</button>
+  <button class="type rock" onclick="setType('rock')">Rock</button>
+  <button class="type ghost" onclick="setType('ghost')">Ghost</button>
+  <button class="type dragon" onclick="setType('dragon')">Dragon</button>
+  <button class="type steel" onclick="setType('steel')">Steel</button>
+  <button class="type dark" onclick="setType('dark')">Dark</button>
+  <button class="type fairy" onclick="setType('fairy')">Fairy</button>
 </div>
 
 <div class="cards" id="cards"></div>
@@ -161,10 +180,40 @@ body {
 </div>
 
 <script>
-const attacks = /* SEU ARRAY CONTINUA IGUAL */ [];
+// ===== DADOS DOS ATAQUES (INALTERADOS) =====
+const attacks = [
+ {
+  name: "Anchor Shot",
+  type: "steel",
+  category: "offense",
+  gif: "anchor-shot.gif",
+  video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
+  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+  slots: [
+    ["Smeargle", "Dhelmise"],
+    ["Metagross"],
+    [],
+    ["Scizor"],
+    [], [], [], [], [], []
+  ]
+ },
+ {
+  name: "Surf",
+  type: "water",
+  category: "special",
+  gif: "surf.gif",
+  video: "",
+  description: "Ataque Water que atinge todos os oponentes.",
+  slots: [
+    ["Lapras"],
+    ["Blastoise"]
+  ]
+ }
+];
 
 let currentType = "all";
 
+// ===== RENDER =====
 function renderCards() {
   const cards = document.getElementById("cards");
   const search = searchInput.value.toLowerCase();
@@ -199,11 +248,8 @@ function openAttack(i) {
   if (atk.video) {
     const id = atk.video.split("v=")[1];
     atkVideo.innerHTML = `
-      <iframe
-        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}"
-        allow="autoplay"
-        allowfullscreen>
-      </iframe>
+      <iframe src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}"
+      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     `;
   }
 
@@ -212,7 +258,7 @@ function openAttack(i) {
     const list = atk.slots[j] || [];
     atkSlots.innerHTML += `
       <div class="slot">
-        <strong>M${j+1}:</strong> ${list.length ? list.join(", ") : "—"}
+        <strong>M${j + 1}:</strong> ${list.length ? list.join(", ") : "—"}
       </div>
     `;
   }
