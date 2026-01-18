@@ -187,3 +187,70 @@ let currentType = "all";
 // ===== RENDER =====
 function renderCards() {
   const cards = document.getElementById("cards");
+  const search = searchInput.value.toLowerCase();
+  cards.innerHTML = "";
+
+  attacks.forEach((atk, i) => {
+    if ((currentType === "all" || atk.type === currentType) &&
+        atk.name.toLowerCase().includes(search)) {
+
+      cards.innerHTML += `
+        <div class="card" onclick="openAttack(${i})">
+          <img src="${atk.gif}">
+          <h3>${atk.name}</h3>
+        </div>
+      `;
+    }
+  });
+}
+
+function setType(type) {
+  currentType = type;
+  renderCards();
+}
+
+// ===== ABRIR ATAQUE =====
+function openAttack(i) {
+  const atk = attacks[i];
+
+  atkName.innerText = atk.name;
+  atkGif.src = atk.gif;
+  atkDesc.innerText = atk.description;
+
+  // ===== VIDEO =====
+  atkVideo.innerHTML = "";
+  if (atk.video) {
+    const id = atk.video.split("v=")[1];
+    atkVideo.innerHTML = `
+      <iframe
+        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    `;
+  }
+
+  // ===== SLOTS =====
+  let text = "";
+  for (let j = 0; j < 10; j++) {
+    const list = atk.slots[j] || [];
+    text += `M${j+1}: ${list.length ? list.join(", ") : "—"}\n`;
+  }
+  atkSlots.innerText = text;
+
+  document.querySelector(".cards").style.display = "none";
+  attackPage.style.display = "block";
+}
+
+function closeAttack() {
+  attackPage.style.display = "none";
+  atkVideo.innerHTML = "";
+  document.querySelector(".cards").style.display = "flex";
+}
+
+renderCards();
+</script>
+
+</body>
+</html>
