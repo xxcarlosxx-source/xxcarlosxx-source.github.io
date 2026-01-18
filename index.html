@@ -76,16 +76,30 @@ body {
 
 /* ===== PÁGINA ATAQUE ===== */
 #attackPage { display: none; }
-#attackPage img {
+
+#atkGif {
   width: 300px;
   border-radius: 10px;
+  margin-bottom: 15px;
 }
+
+/* ===== VÍDEO ===== */
+#atkVideo iframe {
+  width: 100%;
+  max-width: 560px;
+  height: 315px;
+  border-radius: 10px;
+  margin: 15px auto;
+  display: block;
+}
+
 #atkSlots {
   text-align: left;
   white-space: pre-line;
   max-width: 500px;
   margin: 15px auto;
 }
+
 .back {
   padding: 10px 20px;
   border: none;
@@ -119,37 +133,21 @@ body {
 <div id="attackPage">
   <h1 id="atkName"></h1>
   <img id="atkGif">
+  <div id="atkVideo"></div>
   <p id="atkDesc"></p>
   <div id="atkSlots"></div>
   <button class="back" onclick="closeAttack()">⬅ Voltar</button>
 </div>
 
 <script>
-// ===== DADOS DOS ATAQUES =====
+// ===== DADOS =====
 const attacks = [
-  {
-    name: "Anchor Shot",
-    type: "steel",
-    gif: "anchor-shot.gif",
-    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-    slots: {
-      M1: ["Smeargle", "Dhelmise"],
-      M2: ["Metagross"],
-      M3: [],
-      M4: ["Scizor"],
-      M5: [],
-      M6: [],
-      M7: [],
-      M8: [],
-      M9: [],
-      M10: []
-    }
-  },
-  {
+ {
   name: "Meteor Mash",
   type: "steel",
   category: "offense",
-  media: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
+  gif: "",
+  media: "https://www.youtube.com/watch?v=XXXXXXXX",
   description: "test",
   slots: {
     M1: [],
@@ -163,49 +161,12 @@ const attacks = [
     M9: [],
     M10: []
   }
-},
-  {
-    name: "test",
-    type: "fire",
-    gif: "fire-blast.gif",
-    description: "test.",
-    slots: {
-      M1: ["test", "test"],
-      M2: ["test"],
-      M3: [],
-      M4: [],
-      M5: [],
-      M6: [],
-      M7: [],
-      M8: [],
-      M9: [],
-      M10: []
-    }
-  },
-  
-  {
-    name: "Surf",
-    type: "water",
-    gif: "surf.gif",
-    description: "Ataque Water que atinge todos os oponentes.",
-    slots: {
-      M1: ["Lapras"],
-      M2: ["Blastoise"],
-      M3: [],
-      M4: [],
-      M5: [],
-      M6: [],
-      M7: [],
-      M8: [],
-      M9: [],
-      M10: []
-    }
-  }
+ }
 ];
 
 let currentType = "all";
 
-// ===== RENDER CARDS =====
+// ===== RENDER =====
 function renderCards() {
   const cards = document.getElementById("cards");
   const search = searchInput.value.toLowerCase();
@@ -217,7 +178,7 @@ function renderCards() {
 
       cards.innerHTML += `
         <div class="card" onclick="openAttack(${i})">
-          <img src="${atk.gif}">
+          <div style="height:120px;background:#333;border-radius:6px"></div>
           <h3>${atk.name}</h3>
         </div>
       `;
@@ -235,17 +196,31 @@ function openAttack(i) {
   const atk = attacks[i];
 
   atkName.innerText = atk.name;
-  atkGif.src = atk.gif;
+  atkGif.src = atk.gif || "";
   atkDesc.innerText = atk.description;
 
-  let text = "";
+  // ===== VÍDEO =====
+  atkVideo.innerHTML = "";
 
-  for (let m = 1; m <= 10; m++) {
-    const key = "M" + m;
-    const list = atk.slots[key] || [];
-    text += `M${m}: ${list.length ? list.join(", ") : "—"}\n`;
+  if (atk.media) {
+    const videoId = atk.media.split("v=")[1];
+
+    atkVideo.innerHTML = `
+      <iframe
+        src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    `;
   }
 
+  // ===== SLOTS =====
+  let text = "";
+  for (let i = 1; i <= 10; i++) {
+    const list = atk.slots[`M${i}`] || [];
+    text += `M${i}: ${list.length ? list.join(", ") : "—"}\n`;
+  }
   atkSlots.innerText = text;
 
   document.querySelector(".cards").style.display = "none";
@@ -253,12 +228,3 @@ function openAttack(i) {
 }
 
 function closeAttack() {
-  attackPage.style.display = "none";
-  document.querySelector(".cards").style.display = "flex";
-}
-
-renderCards();
-</script>
-
-</body>
-</html>
