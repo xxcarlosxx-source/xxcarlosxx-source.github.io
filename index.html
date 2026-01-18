@@ -27,14 +27,19 @@ body {
   justify-content: center;
   margin-bottom: 25px;
 }
-.type {
+.type, .typeCategoryButton {
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
   color: white;
+  transition: all 0.2s;
+  opacity: 0.8;
 }
+.type:hover, .typeCategoryButton:hover { opacity: 1; }
+
+/* Cores de cada tipo */
 .all { background:#444; }
 .normal { background:#A8A878; color:#000; }
 .fire { background:#F08030; }
@@ -55,20 +60,7 @@ body {
 .dark { background:#705848; }
 .fairy { background:#EE99AC; color:#000; }
 
-/* NOVOS TIPOS CATEGORIA */
-.typeCategoryButton {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  color: #000;
-  margin: 3px;
-  transition: all 0.2s;
-  opacity: 0.8;
-}
-.typeCategoryButton:hover { opacity: 1; }
-/* Cores de cada categoria */
+/* Novas categorias */
 .cure { background:#ff69b4; }       
 .heal { background:#ffc0cb; }       
 .target { background:#ff4d4d; }     
@@ -76,7 +68,7 @@ body {
 .jump { background:#1e90ff; }       
 
 /* Efeito ativo */
-.typeCategoryButton.activeCategory {
+.type.activeType, .typeCategoryButton.activeCategory {
   box-shadow: 0 0 8px 2px #fff;
   transform: scale(1.1);
   opacity: 1;
@@ -175,28 +167,30 @@ body {
   <input id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
 </div>
 
+<!-- BOTÕES DE TIPAGEM -->
 <div class="types">
-  <button class="type all" onclick="setType('all')">Todos</button>
-  <button class="type normal" onclick="setType('normal')">Normal</button>
-  <button class="type fire" onclick="setType('fire')">Fire</button>
-  <button class="type water" onclick="setType('water')">Water</button>
-  <button class="type electric" onclick="setType('electric')">Electric</button>
-  <button class="type grass" onclick="setType('grass')">Grass</button>
-  <button class="type ice" onclick="setType('ice')">Ice</button>
-  <button class="type fighting" onclick="setType('fighting')">Fighting</button>
-  <button class="type poison" onclick="setType('poison')">Poison</button>
-  <button class="type ground" onclick="setType('ground')">Ground</button>
-  <button class="type flying" onclick="setType('flying')">Flying</button>
-  <button class="type psychic" onclick="setType('psychic')">Psychic</button>
-  <button class="type bug" onclick="setType('bug')">Bug</button>
-  <button class="type rock" onclick="setType('rock')">Rock</button>
-  <button class="type ghost" onclick="setType('ghost')">Ghost</button>
-  <button class="type dragon" onclick="setType('dragon')">Dragon</button>
-  <button class="type steel" onclick="setType('steel')">Steel</button>
-  <button class="type dark" onclick="setType('dark')">Dark</button>
-  <button class="type fairy" onclick="setType('fairy')">Fairy</button>
+  <button class="type all" onclick="setType('all', this)">Todos</button>
+  <button class="type normal" onclick="setType('normal', this)">Normal</button>
+  <button class="type fire" onclick="setType('fire', this)">Fire</button>
+  <button class="type water" onclick="setType('water', this)">Water</button>
+  <button class="type electric" onclick="setType('electric', this)">Electric</button>
+  <button class="type grass" onclick="setType('grass', this)">Grass</button>
+  <button class="type ice" onclick="setType('ice', this)">Ice</button>
+  <button class="type fighting" onclick="setType('fighting', this)">Fighting</button>
+  <button class="type poison" onclick="setType('poison', this)">Poison</button>
+  <button class="type ground" onclick="setType('ground', this)">Ground</button>
+  <button class="type flying" onclick="setType('flying', this)">Flying</button>
+  <button class="type psychic" onclick="setType('psychic', this)">Psychic</button>
+  <button class="type bug" onclick="setType('bug', this)">Bug</button>
+  <button class="type rock" onclick="setType('rock', this)">Rock</button>
+  <button class="type ghost" onclick="setType('ghost', this)">Ghost</button>
+  <button class="type dragon" onclick="setType('dragon', this)">Dragon</button>
+  <button class="type steel" onclick="setType('steel', this)">Steel</button>
+  <button class="type dark" onclick="setType('dark', this)">Dark</button>
+  <button class="type fairy" onclick="setType('fairy', this)">Fairy</button>
 </div>
 
+<!-- CATEGORIAS -->
 <div class="types" style="margin-bottom: 20px;">
   <button class="typeCategoryButton cure" onclick="setCategoryFilter('cure', this)">Cura</button>
   <button class="typeCategoryButton heal" onclick="setCategoryFilter('heal', this)">Heal</button>
@@ -230,13 +224,13 @@ const attackOverlay = document.getElementById("attackOverlay");
 let currentType = "all";
 let currentCategory = "all";
 let activeCategoryButton = null;
+let activeTypeButton = null;
 
 // ===== TODOS OS ATAQUES =====
 const attacks = [
   {
     name: "Anchor Shot",
     type: "steel",
-    typeCategory: "target",
     category: "offense",
     video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
     description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
@@ -245,15 +239,95 @@ const attacks = [
   {
     name: "Tackle",
     type: "normal",
-    typeCategory: "jump",
     category: "offense",
     video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
     description: "teste",
     slots: [["Metagross"], [], [], [], [], [], [], [], [], []]
   },
-  // ... ADICIONE AQUI TODOS OS OUTROS ATAQUES SEGUINDO O MODELO ACIMA ...
+  {
+    name: "Headbutt",
+    type: "normal",
+    category: "offense",
+    video: "",
+    description: "teste",
+    slots: [[], ["Metagross"], [], [], [], [], [], [], [], []]
+  },
+  {
+    name: "Psychic",
+    type: "psychic",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [[], [], ["Metagross"], [], [], [], [], [], [], []]
+  },
+  {
+    name: "Confusion",
+    type: "psychic",
+    category: "special",
+    video: "",
+    description: "Causa um enorme dano em área",
+    slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
+  },
+  {
+    name: "Meteor Mash",
+    type: "steel",
+    category: "offense",
+    video: "",
+    description: "teste",
+    slots: [["Metagross","Lucario"], [], [], [], ["Metagross"], [], [], [], [], []]
+  },
+  {
+    name: "Thunder",
+    type: "electric",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [[], [], [], [], [], ["Metagross","Lucario"], [], [], [], []]
+  },
+  {
+    name: "Hyper Beam",
+    type: "normal",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [[], [], [], [], [], [], ["Metagross","Lucario"], [], [], []]
+  },
+  {
+    name: "Earthquake",
+    type: "ground",
+    category: "offense",
+    video: "",
+    description: "teste",
+    slots: [[], [], [], [], [], [], [], ["Metagross","Lucario"], [], []]
+  },
+  {
+    name: "Recover",
+    type: "normal",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [[], [], [], [], [], [], [], [], ["Metagross","Lucario"], []]
+  },
+  {
+    name: "Future Sight",
+    type: "psychic",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [[], [], [], [], [], [], [], [], [], ["Metagross","Lucario"]]
+  },
+  {
+    name: "Giga Impact",
+    type: "normal",
+    category: "offense",
+    video: "",
+    description: "teste",
+    slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+  },
+  // ... Coloque aqui o restante dos ataques que você me passou ...
 ];
 
+// ===== RENDER CARDS =====
 function renderCards() {
   const cards = document.getElementById("cards");
   const search = searchInput.value.toLowerCase();
@@ -273,11 +347,16 @@ function renderCards() {
   });
 }
 
-function setType(type) {
+// ===== TIPOS =====
+function setType(type, button) {
   currentType = type;
+  if(activeTypeButton) activeTypeButton.classList.remove("activeType");
+  button.classList.add("activeType");
+  activeTypeButton = button;
   renderCards();
 }
 
+// ===== CATEGORIAS =====
 function setCategoryFilter(category, button) {
   currentCategory = category;
   if(activeCategoryButton) activeCategoryButton.classList.remove("activeCategory");
