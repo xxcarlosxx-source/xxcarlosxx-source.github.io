@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>PokéMoves Wiki</title>
+<title>Wiki de Ataques Pokémon</title>
 
 <style>
 body {
@@ -12,53 +12,40 @@ body {
 }
 
 .cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 150px);
-  gap: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .card {
-  background: #1e1e1e;
-  border-radius: 10px;
+  width: 200px;
+  background: #222;
   padding: 10px;
+  border-radius: 10px;
   text-align: center;
-  transition: 0.2s;
-}
-
-.card:hover {
-  transform: scale(1.05);
 }
 
 .card img {
   width: 100%;
-  border-radius: 8px;
-}
-a {
-  text-decoration: none;
-  color: white;
 }
 </style>
 </head>
 
 <body>
 
-<h1>PokéMoves Wiki</h1>
+<h1>Wiki de Ataques</h1>
 
 <div class="cards">
 
-<a href="anchor-shot.html">
-  <div class="card">
-    <img src="anchor-shot.png">
-    <p>Anchor Shot</p>
-  </div>
-</a>
+  <a href="anchor-shot.html" class="card">
+    <img src="anchor-shot.gif">
+    <h3>Anchor Shot</h3>
+  </a>
 
-<a href="flamethrower.html">
-  <div class="card">
-    <img src="flamethrower.png">
-    <p>Flamethrower</p>
-  </div>
-</a>
+  <a href="fire-blast.html" class="card">
+    <img src="fire-blast.gif">
+    <h3>Fire Blast</h3>
+  </a>
 
 </div>
 
