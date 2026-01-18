@@ -80,10 +80,10 @@ body {
 #atkGif {
   width: 300px;
   border-radius: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-/* ===== VÍDEO ===== */
+/* ===== VIDEO ===== */
 #atkVideo iframe {
   width: 100%;
   max-width: 560px;
@@ -140,27 +140,45 @@ body {
 </div>
 
 <script>
-// ===== DADOS =====
+// ===== DADOS DOS ATAQUES =====
 const attacks = [
  {
-  name: "Meteor Mash",
+  name: "Anchor Shot",
   type: "steel",
   category: "offense",
-  gif: "",
-  media: "https://www.youtube.com/watch?v=XXXXXXXX",
-  description: "test",
-  slots: {
-    M1: [],
-    M2: [],
-    M3: [],
-    M4: [],
-    M5: ["Shiny Metagross"],
-    M6: [],
-    M7: [],
-    M8: [],
-    M9: [],
-    M10: []
-  }
+  gif: "anchor-shot.gif",
+  video: "",
+  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+  slots: [
+    ["Smeargle", "Dhelmise"],
+    ["Metagross"],
+    [],
+    ["Scizor"]
+  ]
+ },
+ {
+  name: "Fire Blast",
+  type: "fire",
+  category: "special",
+  gif: "fire-blast.gif",
+  video: "",
+  description: "Ataque Fire poderoso com chance de Burn.",
+  slots: [
+    ["Charizard"],
+    ["Typhlosion"]
+  ]
+ },
+ {
+  name: "Surf",
+  type: "water",
+  category: "special",
+  gif: "surf.gif",
+  video: "",
+  description: "Ataque Water que atinge todos os oponentes.",
+  slots: [
+    ["Lapras"],
+    ["Blastoise"]
+  ]
  }
 ];
 
@@ -169,62 +187,3 @@ let currentType = "all";
 // ===== RENDER =====
 function renderCards() {
   const cards = document.getElementById("cards");
-  const search = searchInput.value.toLowerCase();
-  cards.innerHTML = "";
-
-  attacks.forEach((atk, i) => {
-    if ((currentType === "all" || atk.type === currentType) &&
-        atk.name.toLowerCase().includes(search)) {
-
-      cards.innerHTML += `
-        <div class="card" onclick="openAttack(${i})">
-          <div style="height:120px;background:#333;border-radius:6px"></div>
-          <h3>${atk.name}</h3>
-        </div>
-      `;
-    }
-  });
-}
-
-function setType(type) {
-  currentType = type;
-  renderCards();
-}
-
-// ===== ABRIR ATAQUE =====
-function openAttack(i) {
-  const atk = attacks[i];
-
-  atkName.innerText = atk.name;
-  atkGif.src = atk.gif || "";
-  atkDesc.innerText = atk.description;
-
-  // ===== VÍDEO =====
-  atkVideo.innerHTML = "";
-
-  if (atk.media) {
-    const videoId = atk.media.split("v=")[1];
-
-    atkVideo.innerHTML = `
-      <iframe
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
-    `;
-  }
-
-  // ===== SLOTS =====
-  let text = "";
-  for (let i = 1; i <= 10; i++) {
-    const list = atk.slots[`M${i}`] || [];
-    text += `M${i}: ${list.length ? list.join(", ") : "—"}\n`;
-  }
-  atkSlots.innerText = text;
-
-  document.querySelector(".cards").style.display = "none";
-  attackPage.style.display = "block";
-}
-
-function closeAttack() {
