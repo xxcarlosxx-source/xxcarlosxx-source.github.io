@@ -48,8 +48,6 @@ body {
   cursor: pointer;
   color: white;
 }
-
-/* cores dos tipos */
 .all { background:#444; }
 .normal { background:#A8A878; color:#000; }
 .fire { background:#F08030; }
@@ -78,48 +76,31 @@ body {
   justify-content: center;
 }
 .card {
-  width: 200px;
+  width: 120px;
   background: #222;
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
   transition: transform .2s;
+  text-align: center;
 }
 .card:hover { transform: scale(1.05); }
-.card img { width: 100%; border-radius: 6px; }
-
-/* ===== PÁGINA ATAQUE (MODAL) ===== */
-#attackPage {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(17,17,17,0.95);
-  overflow-y: auto;
-  padding: 20px;
-  box-sizing: border-box;
-  z-index: 999;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 5px;
+  border-radius: 6px;
 }
 
-#atkContent {
-  max-width: 600px;
-  margin: 60px auto 20px auto;
-  text-align: center;
-  transform: translateY(-20px);
-  transition: transform 0.3s ease;
-}
-
+/* ===== PÁGINA ATAQUE ===== */
+#attackPage { display: none; }
 #atkGif {
   width: 300px;
   border-radius: 10px;
   margin-bottom: 10px;
 }
 
-/* VIDEO */
+/* ===== VIDEO ===== */
 #atkVideo iframe {
   width: 100%;
   max-width: 560px;
@@ -129,7 +110,7 @@ body {
   display: block;
 }
 
-/* SLOTS M1–M10 */
+/* ===== SLOTS M1–M10 ===== */
 #atkSlots {
   max-width: 500px;
   margin: 20px auto;
@@ -144,27 +125,18 @@ body {
 }
 .slot strong { color: #f8d030; }
 
-/* TIPO ATAQUE */
-#atkType {
-  margin: 10px 0;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 6px;
-  display: inline-block;
-}
-
-/* BOTÃO VOLTAR FIXO */
+/* ===== BOTÃO VOLTAR ===== */
 .back {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border: none;
   background: #444;
   color: white;
   border-radius: 6px;
   cursor: pointer;
-  z-index: 1000;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
 }
 </style>
 </head>
@@ -178,7 +150,7 @@ body {
   <input id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
 </div>
 
-<!-- BOTÕES DE TIPO (16) -->
+<!-- ===== BOTÕES DE TIPO (16) ===== -->
 <div class="types">
   <button class="type all" onclick="setType('all')">Todos</button>
   <button class="type normal" onclick="setType('normal')">Normal</button>
@@ -203,193 +175,185 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<!-- ABA DO ATAQUE -->
-<div id="attackPage" onclick="if(event.target===this) closeAttack()">
+<!-- ===== PÁGINA DO ATAQUE ===== -->
+<div id="attackPage">
   <button class="back" onclick="closeAttack()">⬅ Voltar</button>
-  <div id="atkContent">
-    <h1 id="atkName"></h1>
-    <p id="atkType"></p>
-    <img id="atkGif">
-    <div id="atkVideo"></div>
-    <p id="atkDesc"></p>
-    <div id="atkSlots"></div>
-  </div>
+  <h1 id="atkName"></h1>
+  <div id="atkType" style="font-weight:bold; margin-bottom:5px;"></div>
+  <img id="atkGif">
+  <div id="atkVideo"></div>
+  <p id="atkDesc"></p>
+  <div id="atkSlots"></div>
 </div>
 
 <script>
-const atkName = document.getElementById("atkName");
-const atkType = document.getElementById("atkType");
-const atkGif = document.getElementById("atkGif");
-const atkVideo = document.getElementById("atkVideo");
-const atkDesc = document.getElementById("atkDesc");
-const atkSlots = document.getElementById("atkSlots");
-const searchInput = document.getElementById("searchInput");
-const cardsContainer = document.getElementById("cards");
-
-// ===== DADOS DOS ATAQUES (MODELO ANTIGO) =====
+// ===== DADOS DOS ATAQUES =====
 const attacks = [
- {
+{
   name: "Anchor Shot",
   type: "steel",
   category: "offense",
   gif: "anchor-shot.gif",
+  icon: "", // Coloque o link da imagem aqui
   video: "",
   description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
   slots: [
-    ["Smeargle","Dhelmise"], // M1
-    ["Metagross"],           // M2
-    [],                      // M3
-    ["Scizor"],              // M4
-    [], [], [], [], [], []   // M5-M10
+    ["Smeargle", "Dhelmise"],
+    ["Metagross"],
+    [], [], [], [], [], [], [], []
   ]
- },
- {
-  name: "test",
-  type: "steel",
-  category: "offense",
-  gif: "",
-  video: "",
-  description: "test",
-  slots: [
-    ["Metagross"], [], [], [], [], [], [], [], [], []
-  ]
- },
- {
+},
+{
   name: "Tackle",
   type: "normal",
   category: "offense",
   gif: "",
+  icon: "https://drive.google.com/file/d/1e6iZi_KTXPZP8JDMuuaeLGGw1cUXkcH5/view?usp=drive_link",
   video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
   description: "teste",
   slots: [
     ["Metagross"], [], [], [], [], [], [], [], [], []
   ]
- },
- {
+},
+{
   name: "Headbutt",
   type: "normal",
   category: "offense",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], ["Metagross"], [], [], [], [], [], [], [], []
   ]
- },
- {
+},
+{
   name: "Psychic",
   type: "psychic",
   category: "special",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], [], ["Metagross"], [], [], [], [], [], [], []
   ]
- },
- {
+},
+{
   name: "Confusion",
   type: "psychic",
   category: "special",
   gif: "",
+  icon: "",
   video: "",
   description: "Causa um enorme dano em área",
   slots: [
     [], [], [], ["Metagross"], [], [], [], [], [], []
   ]
- },
- {
+},
+{
   name: "Meteor Mash",
   type: "steel",
   category: "offense",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], [], [], [], ["Metagross"], [], [], [], [], []
   ]
- },
- {
+},
+{
   name: "Thunder",
   type: "electric",
   category: "special",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], [], [], [], [], ["Metagross"], [], [], [], []
   ]
- },
- {
+},
+{
   name: "Hyper Beam",
   type: "normal",
   category: "special",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], [], [], [], [], [], ["Metagross"], [], [], []
   ]
- },
- {
+},
+{
   name: "Earthquake",
   type: "ground",
   category: "offense",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], [], [], [], [], [], [], ["Metagross"], [], []
   ]
- },
- {
+},
+{
   name: "Recover",
   type: "normal",
   category: "special",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], [], [], [], [], [], [], [], ["Metagross"], []
   ]
- },
- {
+},
+{
   name: "Future Sight",
   type: "psychic",
   category: "special",
   gif: "",
+  icon: "",
   video: "",
   description: "teste",
   slots: [
     [], [], [], [], [], [], [], [], [], ["Metagross"]
   ]
- },
- {
+},
+{
   name: "Surf",
   type: "water",
   category: "special",
   gif: "surf.gif",
+  icon: "",
   video: "",
   description: "Ataque Water que atinge todos os oponentes.",
   slots: [
-    ["Lapras"], ["Blastoise"]
+    ["Lapras"],
+    ["Blastoise"]
   ]
- }
+}
 ];
 
+// ===== RENDER =====
 let currentType = "all";
 
 function renderCards() {
+  const cards = document.getElementById("cards");
   const search = searchInput.value.toLowerCase();
-  cardsContainer.innerHTML = "";
+  cards.innerHTML = "";
 
   attacks.forEach((atk, i) => {
     if ((currentType === "all" || atk.type === currentType) &&
         atk.name.toLowerCase().includes(search)) {
-      cardsContainer.innerHTML += `
+
+      cards.innerHTML += `
         <div class="card" onclick="openAttack(${i})">
-          <img src="${atk.gif}">
-          <h3>${atk.name}</h3>
+          <img src="${atk.icon || atk.gif}">
+          <div>${atk.name}</div>
         </div>
       `;
     }
@@ -404,40 +368,42 @@ function setType(type) {
 function openAttack(i) {
   const atk = attacks[i];
   atkName.innerText = atk.name;
-  atkType.innerText = atk.type;
+
+  atkType.innerText = atk.type.toUpperCase();
   atkType.className = atk.type;
+
   atkGif.src = atk.gif;
   atkDesc.innerText = atk.description;
 
   atkVideo.innerHTML = "";
   if (atk.video) {
     const id = atk.video.split("v=")[1];
-    atkVideo.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    atkVideo.innerHTML = `
+      <iframe src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}"
+      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    `;
   }
 
   atkSlots.innerHTML = "";
   for (let j = 0; j < 10; j++) {
     const list = atk.slots[j] || [];
-    atkSlots.innerHTML += `<div class="slot"><strong>M${j+1}:</strong> ${list.length ? list.join(", ") : "—"}</div>`;
+    atkSlots.innerHTML += `
+      <div class="slot">
+        <strong>M${j + 1}:</strong> ${list.length ? list.join(", ") : "—"}
+      </div>
+    `;
   }
 
-  // Mostrar modal com animação
+  document.querySelector(".cards").style.opacity = 0;
   attackPage.style.display = "block";
-  cardsContainer.style.display = "none"; // esconder o fundo durante a animação
-  setTimeout(() => {
-    attackPage.style.opacity = 1;
-    document.getElementById("atkContent").style.transform = "translateY(0)";
-  }, 10);
+  setTimeout(()=>{document.querySelector(".cards").style.display="none";}, 200);
 }
 
 function closeAttack() {
-  document.getElementById("atkContent").style.transform = "translateY(-20px)";
-  attackPage.style.opacity = 0;
-  cardsContainer.style.display = "flex"; // mostrar cards imediatamente
-  setTimeout(() => {
-    attackPage.style.display = "none";
-    atkVideo.innerHTML = "";
-  }, 300);
+  attackPage.style.display = "none";
+  atkVideo.innerHTML = "";
+  document.querySelector(".cards").style.display = "flex";
+  document.querySelector(".cards").style.opacity = 1;
 }
 
 renderCards();
