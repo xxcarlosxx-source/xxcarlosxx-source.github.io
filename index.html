@@ -158,20 +158,24 @@ body {
 <script>
 // ===== DADOS DOS ATAQUES =====
 const attacks = [
-  {
-    name: "Anchor Shot",
-    type: "steel",
-    gif: "anchor-shot.gif",
-    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-    users: ["m1"
-            , "m2"
-           , "m3"
-           , "m4"
-           , "m5"
-           , "m6"
-           , "m7"
-           , "m8"]
-  },
+ {
+  name: "Anchor Shot",
+  type: "steel",
+  gif: "anchor-shot.gif",
+  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+  slots: {
+    M1: ["Smeargle", "Dhelmise"],
+    M2: ["Metagross"],
+    M3: [],
+    M4: ["Scizor"],
+    M5: [],
+    M6: [],
+    M7: [],
+    M8: [],
+    M9: [],
+    M10: []
+  }
+},
   {
     name: "Fire Blast",
     type: "fire",
