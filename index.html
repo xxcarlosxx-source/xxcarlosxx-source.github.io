@@ -64,13 +64,19 @@ body {
   cursor: pointer;
   color: #000;
   margin: 3px;
+  transition: 0.2s;
 }
 .cure { background:#ff69b4; }       /* rosa */
 .heal { background:#ffc0cb; }       /* rosa claro */
 .target { background:#ff4d4d; }     /* vermelho */
 .area { background:#ffa500; }       /* laranja */
 .jump { background:#1e90ff; }       /* azul */
+.typeCategoryButton.activeCategory {
+  box-shadow: 0 0 8px 2px #fff;
+  transform: scale(1.1);
+}
 
+/* CARDS */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -187,11 +193,11 @@ body {
 
 <!-- FILTRO NOVO POR CATEGORIA -->
 <div class="types" style="margin-bottom: 20px;">
-  <button class="typeCategoryButton cure" onclick="setCategoryFilter('cure')">Cura</button>
-  <button class="typeCategoryButton heal" onclick="setCategoryFilter('heal')">Heal</button>
-  <button class="typeCategoryButton target" onclick="setCategoryFilter('target')">Target</button>
-  <button class="typeCategoryButton area" onclick="setCategoryFilter('area')">Area</button>
-  <button class="typeCategoryButton jump" onclick="setCategoryFilter('jump')">Jump</button>
+  <button class="typeCategoryButton cure" onclick="setCategoryFilter('cure', this)">Cura</button>
+  <button class="typeCategoryButton heal" onclick="setCategoryFilter('heal', this)">Heal</button>
+  <button class="typeCategoryButton target" onclick="setCategoryFilter('target', this)">Target</button>
+  <button class="typeCategoryButton area" onclick="setCategoryFilter('area', this)">Area</button>
+  <button class="typeCategoryButton jump" onclick="setCategoryFilter('jump', this)">Jump</button>
 </div>
 
 <div class="cards" id="cards"></div>
@@ -215,6 +221,10 @@ const atkDesc = document.getElementById("atkDesc");
 const atkVideo = document.getElementById("atkVideo");
 const atkSlots = document.getElementById("atkSlots");
 const attackOverlay = document.getElementById("attackOverlay");
+
+let currentType = "all";
+let currentCategory = "all";
+let activeCategoryButton = null;
 
 // ===== TODOS OS ATAQUES =====
 const attacks = [
@@ -264,42 +274,6 @@ const attacks = [
     slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
   },
   {
-    name: "Meteor Mash",
-    type: "steel",
-    typeCategory: "jump",
-    category: "offense",
-    video: "",
-    description: "teste",
-    slots: [["Metagross","Lucario"], [], [], [], ["Metagross"], [], [], [], [], []]
-  },
-  {
-    name: "Thunder",
-    type: "electric",
-    typeCategory: "area",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], ["Metagross","Lucario"], [], [], [], []]
-  },
-  {
-    name: "Hyper Beam",
-    type: "normal",
-    typeCategory: "target",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], [], ["Metagross","Lucario"], [], [], []]
-  },
-  {
-    name: "Earthquake",
-    type: "ground",
-    typeCategory: "area",
-    category: "offense",
-    video: "",
-    description: "teste",
-    slots: [[], [], [], [], [], [], [], ["Metagross","Lucario"], [], []]
-  },
-  {
     name: "Recover",
     type: "normal",
     typeCategory: "heal",
@@ -307,14 +281,10 @@ const attacks = [
     video: "",
     description: "Recupera HP do usuário",
     slots: [[], [], [], [], [], [], [], [], ["Metagross","Lucario"], []]
-  },
-  // ADICIONE AQUI TODOS OS OUTROS ATAQUES SEGUINDO ESTE MODELO
+  }
 ];
 
-// ===== FILTROS =====
-let currentType = "all";
-let currentCategory = "all";
-
+// ===== FUNÇÕES =====
 function renderCards() {
   const cards = document.getElementById("cards");
   const search = searchInput.value.toLowerCase();
@@ -339,8 +309,11 @@ function setType(type) {
   renderCards();
 }
 
-function setCategoryFilter(category) {
+function setCategoryFilter(category, button) {
   currentCategory = category;
+  if(activeCategoryButton) activeCategoryButton.classList.remove("activeCategory");
+  button.classList.add("activeCategory");
+  activeCategoryButton = button;
   renderCards();
 }
 
