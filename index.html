@@ -227,6 +227,7 @@ const atkVideo = document.getElementById("atkVideo");
 const atkDesc = document.getElementById("atkDesc");
 const atkSlots = document.getElementById("atkSlots");
 const searchInput = document.getElementById("searchInput");
+const cardsContainer = document.getElementById("cards");
 
 const attacks = [
  { name: "Anchor Shot", type: "steel", category: "offense", gif: "anchor-shot.gif", video: "", description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.", slots:[["Smeargle","Dhelmise"],["Metagross"],[],["Scizor"],[],[],[],[],[],[]]},
@@ -247,15 +248,14 @@ const attacks = [
 let currentType = "all";
 
 function renderCards() {
-  const cards = document.getElementById("cards");
   const search = searchInput.value.toLowerCase();
-  cards.innerHTML = "";
+  cardsContainer.innerHTML = "";
 
   attacks.forEach((atk, i) => {
     if ((currentType === "all" || atk.type === currentType) &&
         atk.name.toLowerCase().includes(search)) {
 
-      cards.innerHTML += `
+      cardsContainer.innerHTML += `
         <div class="card" onclick="openAttack(${i})">
           <img src="${atk.gif}">
           <h3>${atk.name}</h3>
@@ -290,8 +290,9 @@ function openAttack(i) {
     atkSlots.innerHTML += `<div class="slot"><strong>M${j+1}:</strong> ${list.length ? list.join(", ") : "—"}</div>`;
   }
 
-  document.querySelector(".cards").style.display = "none";
+  // Mostrar modal com animação
   attackPage.style.display = "block";
+  cardsContainer.style.display = "none"; // esconder o fundo durante a animação
   setTimeout(() => {
     attackPage.style.opacity = 1;
     document.getElementById("atkContent").style.transform = "translateY(0)";
@@ -301,10 +302,10 @@ function openAttack(i) {
 function closeAttack() {
   document.getElementById("atkContent").style.transform = "translateY(-20px)";
   attackPage.style.opacity = 0;
+  cardsContainer.style.display = "flex"; // mostrar cards imediatamente
   setTimeout(() => {
     attackPage.style.display = "none";
     atkVideo.innerHTML = "";
-    document.querySelector(".cards").style.display = "flex";
   }, 300);
 }
 
