@@ -180,7 +180,7 @@ body {
 <!-- ===== PÁGINA DO ATAQUE ===== -->
 <div id="attackPage">
   <h1 id="atkName"></h1>
-  <p id="atkType"></p> <!-- Agora o tipo aparece colorido -->
+  <p id="atkType"></p>
   <img id="atkGif">
   <div id="atkVideo"></div>
   <p id="atkDesc"></p>
@@ -189,6 +189,15 @@ body {
 </div>
 
 <script>
+// ===== ELEMENTOS HTML =====
+const atkName = document.getElementById("atkName");
+const atkType = document.getElementById("atkType");
+const atkGif = document.getElementById("atkGif");
+const atkVideo = document.getElementById("atkVideo");
+const atkDesc = document.getElementById("atkDesc");
+const atkSlots = document.getElementById("atkSlots");
+const searchInput = document.getElementById("searchInput");
+
 // ===== DADOS DOS ATAQUES =====
 const attacks = [
  {
@@ -372,7 +381,7 @@ function openAttack(i) {
   const atk = attacks[i];
   atkName.innerText = atk.name;
 
-  // ✅ tipo do ataque com cor correspondente
+  // tipo com cor
   atkType.innerText = atk.type;
   atkType.className = atk.type;
 
@@ -396,3 +405,20 @@ function openAttack(i) {
         <strong>M${j + 1}:</strong> ${list.length ? list.join(", ") : "—"}
       </div>
     `;
+  }
+
+  document.querySelector(".cards").style.display = "none";
+  attackPage.style.display = "block";
+}
+
+function closeAttack() {
+  attackPage.style.display = "none";
+  atkVideo.innerHTML = "";
+  document.querySelector(".cards").style.display = "flex";
+}
+
+renderCards();
+</script>
+
+</body>
+</html>
