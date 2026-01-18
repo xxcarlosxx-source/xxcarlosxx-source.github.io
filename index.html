@@ -58,7 +58,6 @@ body {
   color: white;
 }
 
-/* CORES DAS TIPAGENS */
 .normal { background: #A8A878; color: #000; }
 .fire { background: #F08030; }
 .water { background: #6890F0; }
@@ -90,7 +89,6 @@ body {
   background: #222;
   padding: 10px;
   border-radius: 10px;
-  text-align: center;
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -106,7 +104,26 @@ body {
 
 .card h3 {
   margin-top: 10px;
-  font-size: 18px;
+}
+
+/* ===== PÁGINA DO ATAQUE ===== */
+#attackPage {
+  display: none;
+}
+
+#attackPage img {
+  width: 300px;
+  border-radius: 10px;
+}
+
+.back {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #444;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -116,89 +133,105 @@ body {
 <h1 class="title">Meu Smeargle Perfeito</h1>
 <p class="subtitle">Wiki de ataques Pokémon</p>
 
-<!-- BUSCA -->
 <div class="search">
-  <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="Buscar ataque..."
-    onkeyup="searchAttack()"
-  >
+  <input type="text" id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
 </div>
 
-<!-- TIPAGENS -->
 <div class="types">
-  <button onclick="filterType('all')" class="type all">Todos</button>
-  <button onclick="filterType('normal')" class="type normal">Normal</button>
-  <button onclick="filterType('fire')" class="type fire">Fire</button>
-  <button onclick="filterType('water')" class="type water">Water</button>
-  <button onclick="filterType('grass')" class="type grass">Grass</button>
-  <button onclick="filterType('electric')" class="type electric">Electric</button>
-  <button onclick="filterType('ice')" class="type ice">Ice</button>
-  <button onclick="filterType('fighting')" class="type fighting">Fighting</button>
-  <button onclick="filterType('poison')" class="type poison">Poison</button>
-  <button onclick="filterType('ground')" class="type ground">Ground</button>
-  <button onclick="filterType('flying')" class="type flying">Flying</button>
-  <button onclick="filterType('psychic')" class="type psychic">Psychic</button>
-  <button onclick="filterType('bug')" class="type bug">Bug</button>
-  <button onclick="filterType('rock')" class="type rock">Rock</button>
-  <button onclick="filterType('ghost')" class="type ghost">Ghost</button>
-  <button onclick="filterType('dragon')" class="type dragon">Dragon</button>
-  <button onclick="filterType('steel')" class="type steel">Steel</button>
+  <button class="type all" onclick="setType('all')">Todos</button>
+  <button class="type fire" onclick="setType('fire')">Fire</button>
+  <button class="type water" onclick="setType('water')">Water</button>
+  <button class="type steel" onclick="setType('steel')">Steel</button>
 </div>
 
-<!-- CARDS -->
-<div class="cards">
+<div class="cards" id="cards"></div>
 
-  <a href="anchor-shot.html" style="text-decoration:none; color:inherit;">
-  <div class="card" data-type="steel">
-    <img src="anchor-shot.gif" alt="Anchor Shot">
-    <h3>Anchor Shot</h3>
-  </div>
-</a>
-
- <a href="fire-blast.html" style="text-decoration:none; color:inherit;">
-  <div class="card" data-type="fire">
-    <img src="fire-blast.gif" alt="Fire Blast">
-    <h3>Fire Blast</h3>
-  </div>
-</a>
-
-  <div class="card" data-type="water">
-    <img src="surf.gif" alt="Surf">
-    <h3>Surf</h3>
-  </div>
-
+<!-- PÁGINA DO ATAQUE -->
+<div id="attackPage">
+  <h1 id="atkName"></h1>
+  <img id="atkGif">
+  <p id="atkDesc"></p>
+  <p id="atkUsers"></p>
+  <button class="back" onclick="closeAttack()">⬅ Voltar</button>
 </div>
 
-<!-- SCRIPT -->
 <script>
-function filterType(type) {
-  const cards = document.querySelectorAll('.card');
+// ===== DADOS DOS ATAQUES =====
+const attacks = [
+  {
+    name: "Anchor Shot",
+    type: "steel",
+    gif: "anchor-shot.gif",
+    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+    users: ["Dhelmise", "Smeargle"]
+  },
+  {
+    name: "Fire Blast",
+    type: "fire",
+    gif: "fire-blast.gif",
+    description: "Ataque Fire poderoso com chance de causar Burn.",
+    users: ["Charizard", "Typhlosion"]
+  },
+  {
+    name: "Surf",
+    type: "water",
+    gif: "surf.gif",
+    description: "Ataque Water que atinge todos os oponentes.",
+    users: ["Lapras", "Blastoise"]
+  }
+];
 
-  cards.forEach(card => {
-    if (type === 'all' || card.dataset.type === type) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
+let currentType = "all";
+
+// ===== RENDERIZAR CARDS =====
+function renderCards() {
+  const cardsDiv = document.getElementById("cards");
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  cardsDiv.innerHTML = "";
+
+  attacks.forEach((atk, index) => {
+    if (
+      (currentType === "all" || atk.type === currentType) &&
+      atk.name.toLowerCase().includes(search)
+    ) {
+      cardsDiv.innerHTML += `
+        <div class="card" onclick="openAttack(${index})">
+          <img src="${atk.gif}">
+          <h3>${atk.name}</h3>
+        </div>
+      `;
     }
   });
 }
 
-function searchAttack() {
-  const input = document.getElementById('searchInput').value.toLowerCase();
-  const cards = document.querySelectorAll('.card');
-
-  cards.forEach(card => {
-    const name = card.querySelector('h3').innerText.toLowerCase();
-
-    if (name.includes(input)) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  });
+// ===== FILTRO =====
+function setType(type) {
+  currentType = type;
+  renderCards();
 }
+
+// ===== ABRIR ATAQUE =====
+function openAttack(i) {
+  const atk = attacks[i];
+
+  document.getElementById("atkName").innerText = atk.name;
+  document.getElementById("atkGif").src = atk.gif;
+  document.getElementById("atkDesc").innerText = atk.description;
+  document.getElementById("atkUsers").innerText =
+    "Pokémon: " + atk.users.join(", ");
+
+  document.querySelector(".cards").style.display = "none";
+  document.getElementById("attackPage").style.display = "block";
+}
+
+// ===== VOLTAR =====
+function closeAttack() {
+  document.getElementById("attackPage").style.display = "none";
+  document.querySelector(".cards").style.display = "flex";
+}
+
+// INICIAL
+renderCards();
 </script>
 
 </body>
