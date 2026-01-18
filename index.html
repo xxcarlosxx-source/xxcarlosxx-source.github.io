@@ -62,6 +62,19 @@ body {
   <h3>Surf</h3>
 </div>
 
+<script>
+function filterType(type) {
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    if (type === 'all' || card.dataset.type === type) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
 
 </body>
 </html>
