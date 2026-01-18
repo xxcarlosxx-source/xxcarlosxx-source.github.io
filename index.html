@@ -180,6 +180,15 @@ body {
 </div>
 
 <script>
+// ===== VARIÁVEIS DOM =====
+const searchInput = document.getElementById("searchInput");
+const atkName = document.getElementById("atkName");
+const atkType = document.getElementById("atkType");
+const atkDesc = document.getElementById("atkDesc");
+const atkVideo = document.getElementById("atkVideo");
+const atkSlots = document.getElementById("atkSlots");
+const attackPage = document.getElementById("attackPage");
+
 // ===== DADOS DOS ATAQUES =====
 const attacks = [
 {
@@ -189,9 +198,7 @@ const attacks = [
   video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
   description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
   slots: [
-    ["Smeargle","Dhelmise"],
-    ["Metagross"],
-    [], [], [], [], [], [], [], []
+    ["Smeargle","Dhelmise"], ["Metagross"], [], [], [], [], [], [], [], []
   ]
 },
 {
@@ -200,9 +207,7 @@ const attacks = [
   category: "offense",
   video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
   description: "teste",
-  slots: [
-    ["Metagross"], [], [], [], [], [], [], [], [], []
-  ]
+  slots: [["Metagross"], [], [], [], [], [], [], [], [], []]
 },
 {
   name: "Headbutt",
@@ -210,9 +215,7 @@ const attacks = [
   category: "offense",
   video: "",
   description: "teste",
-  slots: [
-    [], ["Metagross"], [], [], [], [], [], [], [], []
-  ]
+  slots: [[], ["Metagross"], [], [], [], [], [], [], [], []]
 },
 {
   name: "Psychic",
@@ -220,9 +223,7 @@ const attacks = [
   category: "special",
   video: "",
   description: "teste",
-  slots: [
-    [], [], ["Metagross"], [], [], [], [], [], [], []
-  ]
+  slots: [[], [], ["Metagross"], [], [], [], [], [], [], []]
 },
 {
   name: "Confusion",
@@ -230,9 +231,7 @@ const attacks = [
   category: "special",
   video: "",
   description: "Causa um enorme dano em área",
-  slots: [
-    [], [], [], ["Metagross"], [], [], [], [], [], []
-  ]
+  slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
 },
 {
   name: "Meteor Mash",
@@ -240,9 +239,7 @@ const attacks = [
   category: "offense",
   video: "",
   description: "teste",
-  slots: [
-    [], [], [], [], ["Metagross"], [], [], [], [], []
-  ]
+  slots: [[], [], [], [], ["Metagross"], [], [], [], [], []]
 },
 {
   name: "Thunder",
@@ -250,9 +247,7 @@ const attacks = [
   category: "special",
   video: "",
   description: "teste",
-  slots: [
-    [], [], [], [], [], ["Metagross"], [], [], [], []
-  ]
+  slots: [[], [], [], [], [], ["Metagross"], [], [], [], []]
 },
 {
   name: "Hyper Beam",
@@ -260,9 +255,7 @@ const attacks = [
   category: "special",
   video: "",
   description: "teste",
-  slots: [
-    [], [], [], [], [], [], ["Metagross"], [], [], []
-  ]
+  slots: [[], [], [], [], [], [], ["Metagross"], [], [], []]
 },
 {
   name: "Earthquake",
@@ -270,9 +263,7 @@ const attacks = [
   category: "offense",
   video: "",
   description: "teste",
-  slots: [
-    [], [], [], [], [], [], [], ["Metagross"], [], []
-  ]
+  slots: [[], [], [], [], [], [], [], ["Metagross"], [], []]
 },
 {
   name: "Recover",
@@ -280,9 +271,7 @@ const attacks = [
   category: "special",
   video: "",
   description: "teste",
-  slots: [
-    [], [], [], [], [], [], [], [], ["Metagross"], []
-  ]
+  slots: [[], [], [], [], [], [], [], [], ["Metagross"], []]
 },
 {
   name: "Future Sight",
@@ -290,103 +279,11 @@ const attacks = [
   category: "special",
   video: "",
   description: "teste",
-  slots: [
-    [], [], [], [], [], [], [], [], [], ["Metagross"]
-  ]
-},
-  {
-  name: "Giga Impact",
-  type: "normal",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Focus Blast",
-  type: "fighting",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Drain Punch",
-  type: "fighting",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Brick Break",
-  type: "fighting",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Meteor Mash",
-  type: "steel",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [["Metagross","Lucario"], [], [], [], ["Metagross"], [], [], [], [], []]
-},
-{
-  name: "Dark Pulse",
-  type: "dark",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Earthquake",
-  type: "ground",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [[], [], [], [], [], [], [], ["Metagross","Lucario"], [], []]
-},
-{
-  name: "Aura Sphere",
-  type: "fighting",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Bone Rush",
-  type: "ground",
-  category: "offense",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-},
-{
-  name: "Heal Pulse",
-  type: "psychic",
-  category: "special",
-  video: "",
-  description: "teste",
-  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
-}
-{
-  name: "Surf",
-  type: "water",
-  category: "special",
-  video: "",
-  description: "Ataque Water que atinge todos os oponentes.",
-  slots: [
-    ["Lapras"], ["Blastoise"]
-  ]
+  slots: [[], [], [], [], [], [], [], [], [], ["Metagross"]]
 }
 ];
 
-// ===== RENDER =====
+// ===== RENDERIZAÇÃO DOS CARDS =====
 let currentType = "all";
 
 function renderCards() {
@@ -397,7 +294,6 @@ function renderCards() {
   attacks.forEach((atk, i) => {
     if ((currentType === "all" || atk.type === currentType) &&
         atk.name.toLowerCase().includes(search)) {
-
       cards.innerHTML += `
         <div class="card" onclick="openAttack(${i})">
           <div>${atk.name}</div>
@@ -452,6 +348,7 @@ function closeAttack() {
   document.querySelector(".cards").style.opacity = 1;
 }
 
+// ===== INIT =====
 renderCards();
 </script>
 
