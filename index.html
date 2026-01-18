@@ -2,39 +2,37 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>test</title>
+<title>Meu Smeargle Perfeito</title>
 
 <style>
 body {
   background: #111;
   color: white;
   font-family: Arial;
+  margin: 0;
+  padding: 20px;
 }
 
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.card {
-  width: 200px;
-  background: #222;
-  padding: 10px;
-  border-radius: 10px;
+/* ===== TÍTULO ===== */
+.title {
+  font-size: 48px;
+  margin-bottom: 5px;
   text-align: center;
 }
 
-.card img {
-  width: 100%;
+.subtitle {
+  color: #aaa;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-/* ==== TIPAGENS ==== */
+/* ===== TIPAGENS ===== */
 .types {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
+  justify-content: center;
 }
 
 .type {
@@ -46,6 +44,7 @@ body {
   color: white;
 }
 
+/* CORES DOS TIPOS */
 .normal { background: #A8A878; color: #000; }
 .fire { background: #F08030; }
 .water { background: #6890F0; }
@@ -63,17 +62,40 @@ body {
 .dragon { background: #7038F8; }
 .steel { background: #B8B8D0; color: #000; }
 .all { background: #444; }
+
+/* ===== CARDS ===== */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  width: 200px;
+  background: #222;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 6px;
+}
 </style>
-
 </head>
-
-<body>
 
 <body>
 
 <h1 class="title">Meu Smeargle Perfeito</h1>
 <p class="subtitle">Wiki de ataques Pokémon</p>
-
 
 <div class="types">
   <button onclick="filterType('all')" class="type all">Todos</button>
@@ -96,9 +118,6 @@ body {
   <button onclick="filterType('steel')" class="type steel">Steel</button>
 </div>
 
-
-
-  
 <div class="cards">
 
   <div class="card" data-type="steel">
@@ -117,7 +136,6 @@ body {
   </div>
 
 </div>
-
 
 <script>
 function filterType(type) {
