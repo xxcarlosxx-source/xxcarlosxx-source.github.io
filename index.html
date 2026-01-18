@@ -38,7 +38,7 @@ body {
 .all { background:#444; }
 .normal { background:#A8A878; color:#000; }
 .fire { background:#F08030; }
-.water { background:#6890F0; }
+.water { background:#6890F0; color:#fff; }
 .electric { background:#F8D030; color:#000; }
 .grass { background:#78C850; color:#000; }
 .ice { background:#98D8D8; color:#000; }
@@ -64,16 +64,24 @@ body {
   cursor: pointer;
   color: #000;
   margin: 3px;
-  transition: 0.2s;
+  transition: all 0.2s;
+  opacity: 0.8;
 }
-.cure { background:#ff69b4; }       /* rosa */
-.heal { background:#ffc0cb; }       /* rosa claro */
-.target { background:#ff4d4d; }     /* vermelho */
-.area { background:#ffa500; }       /* laranja */
-.jump { background:#1e90ff; }       /* azul */
+.typeCategoryButton:hover {
+  opacity: 1;
+}
+/* Cores de cada categoria */
+.cure { background:#ff69b4; }       
+.heal { background:#ffc0cb; }       
+.target { background:#ff4d4d; }     
+.area { background:#ffa500; }       
+.jump { background:#1e90ff; }       
+
+/* Efeito ativo */
 .typeCategoryButton.activeCategory {
   box-shadow: 0 0 8px 2px #fff;
   transform: scale(1.1);
+  opacity: 1;
 }
 
 /* CARDS */
@@ -191,7 +199,6 @@ body {
   <button class="type fairy" onclick="setType('fairy')">Fairy</button>
 </div>
 
-<!-- FILTRO NOVO POR CATEGORIA -->
 <div class="types" style="margin-bottom: 20px;">
   <button class="typeCategoryButton cure" onclick="setCategoryFilter('cure', this)">Cura</button>
   <button class="typeCategoryButton heal" onclick="setCategoryFilter('heal', this)">Heal</button>
@@ -226,62 +233,11 @@ let currentType = "all";
 let currentCategory = "all";
 let activeCategoryButton = null;
 
-// ===== TODOS OS ATAQUES =====
+// ===== ATAQUES =====
 const attacks = [
-  {
-    name: "Anchor Shot",
-    type: "steel",
-    typeCategory: "target",
-    category: "offense",
-    video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
-    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-    slots: [["Smeargle","Dhelmise"], ["Metagross"], [], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Tackle",
-    type: "normal",
-    typeCategory: "jump",
-    category: "offense",
-    video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
-    description: "teste",
-    slots: [["Metagross"], [], [], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Headbutt",
-    type: "normal",
-    typeCategory: "jump",
-    category: "offense",
-    video: "",
-    description: "teste",
-    slots: [[], ["Metagross"], [], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Psychic",
-    type: "psychic",
-    typeCategory: "target",
-    category: "special",
-    video: "",
-    description: "teste",
-    slots: [[], [], ["Metagross"], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Confusion",
-    type: "psychic",
-    typeCategory: "area",
-    category: "special",
-    video: "",
-    description: "Causa um enorme dano em área",
-    slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
-  },
-  {
-    name: "Recover",
-    type: "normal",
-    typeCategory: "heal",
-    category: "special",
-    video: "",
-    description: "Recupera HP do usuário",
-    slots: [[], [], [], [], [], [], [], [], ["Metagross","Lucario"], []]
-  }
+  { name: "Anchor Shot", type: "steel", typeCategory: "target", category: "offense", video: "", description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.", slots: [["Smeargle"], [], [], [], [], [], [], [], [], []] },
+  { name: "Tackle", type: "normal", typeCategory: "jump", category: "offense", video: "", description: "teste", slots: [["Metagross"], [], [], [], [], [], [], [], [], []] },
+  { name: "Recover", type: "normal", typeCategory: "heal", category: "special", video: "", description: "Recupera HP do usuário", slots: [[], [], [], [], [], [], [], [], ["Metagross"], []] }
 ];
 
 // ===== FUNÇÕES =====
