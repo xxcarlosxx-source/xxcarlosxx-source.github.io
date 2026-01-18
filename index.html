@@ -35,16 +35,17 @@ body {
 
 <h1>Wiki de Ataques</h1>
 
-  <select onchange="filterType(this.value)">
-  <option value="all">Todos</option>
-  <option value="fire">Fire</option>
-  <option value="water">Water</option>
-  <option value="steel">Steel</option>
-  <option value="dragon">Dragon</option>
-  <option value="electric">Electric</option>
-  <option value="grass">Grass</option>
-  <!-- depois você completa as 16 -->
-</select>
+<div class="types">
+  <button onclick="filterType('all')" class="type all">Todos</button>
+  <button onclick="filterType('fire')" class="type fire">Fire</button>
+  <button onclick="filterType('water')" class="type water">Water</button>
+  <button onclick="filterType('grass')" class="type grass">Grass</button>
+  <button onclick="filterType('electric')" class="type electric">Electric</button>
+  <button onclick="filterType('steel')" class="type steel">Steel</button>
+  <button onclick="filterType('dragon')" class="type dragon">Dragon</button>
+  <button onclick="filterType('ghost')" class="type ghost">Ghost</button>
+</div>
+
 
   
 <div class="card" data-type="steel">
