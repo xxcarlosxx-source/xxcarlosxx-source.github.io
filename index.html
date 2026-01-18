@@ -14,25 +14,12 @@ body {
   text-align: center;
 }
 
-/* ===== TÍTULO ===== */
 .title { font-size: 36px; margin-bottom: 5px; }
 .subtitle { color: #aaa; margin-bottom: 20px; }
 
-/* ===== BUSCA ===== */
-.search {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-#searchInput {
-  width: 320px;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  font-size: 16px;
-}
+.search { display: flex; justify-content: center; margin-bottom: 20px; }
+#searchInput { width: 320px; padding: 10px; border-radius: 6px; border: none; font-size: 16px; }
 
-/* ===== TIPOS ===== */
 .types {
   display: flex;
   flex-wrap: wrap;
@@ -68,7 +55,6 @@ body {
 .dark { background:#705848; }
 .fairy { background:#EE99AC; color:#000; }
 
-/* ===== CARDS ===== */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -90,12 +76,8 @@ body {
   font-weight: bold;
   text-align: center;
 }
-.card:hover { 
-  transform: scale(1.05);
-  background: #333;
-}
+.card:hover { transform: scale(1.05); background: #333; }
 
-/* ===== FUNDO ATAQUE ===== */
 #attackOverlay {
   position: fixed;
   top:0; left:0;
@@ -109,7 +91,6 @@ body {
   box-sizing: border-box;
 }
 
-/* ===== PÁGINA ATAQUE ===== */
 #attackPage {
   position: relative;
   max-width: 600px;
@@ -121,7 +102,6 @@ body {
   color: white;
 }
 
-/* ===== VIDEO ===== */
 #atkVideo iframe {
   width: 100%;
   max-width: 560px;
@@ -131,7 +111,6 @@ body {
   display: block;
 }
 
-/* ===== SLOTS M1–M10 ===== */
 #atkSlots {
   margin-top: 15px;
 }
@@ -144,7 +123,6 @@ body {
 }
 .slot strong { color: #f8d030; }
 
-/* ===== BOTÃO VOLTAR ===== */
 .back {
   padding: 6px 12px;
   border: none;
@@ -193,7 +171,6 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<!-- ===== FUNDO E PÁGINA ATAQUE ===== -->
 <div id="attackOverlay" onclick="closeAttack()">
   <div id="attackPage" onclick="event.stopPropagation()">
     <button class="back" onclick="closeAttack()">⬅ Voltar</button>
@@ -206,7 +183,6 @@ body {
 </div>
 
 <script>
-// ===== VARIÁVEIS DOM =====
 const searchInput = document.getElementById("searchInput");
 const atkName = document.getElementById("atkName");
 const atkType = document.getElementById("atkType");
@@ -215,7 +191,7 @@ const atkVideo = document.getElementById("atkVideo");
 const atkSlots = document.getElementById("atkSlots");
 const attackOverlay = document.getElementById("attackOverlay");
 
-// ===== DADOS DOS ATAQUES =====
+// ===== TODOS OS ATAQUES =====
 const attacks = [
 {
   name: "Anchor Shot",
@@ -240,6 +216,142 @@ const attacks = [
   video: "",
   description: "teste",
   slots: [[], ["Metagross"], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Psychic",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], ["Metagross"], [], [], [], [], [], [], []]
+},
+{
+  name: "Confusion",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "Causa um enorme dano em área",
+  slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
+},
+{
+  name: "Meteor Mash",
+  type: "steel",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Metagross","Lucario"], [], [], [], ["Metagross"], [], [], [], [], []]
+},
+{
+  name: "Thunder",
+  type: "electric",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], ["Metagross","Lucario"], [], [], [], []]
+},
+{
+  name: "Hyper Beam",
+  type: "normal",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], ["Metagross","Lucario"], [], [], []]
+},
+{
+  name: "Earthquake",
+  type: "ground",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], [], ["Metagross","Lucario"], [], []]
+},
+{
+  name: "Recover",
+  type: "normal",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], [], [], ["Metagross","Lucario"], []]
+},
+{
+  name: "Future Sight",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], [], [], [], ["Metagross","Lucario"]]
+},
+{
+  name: "Giga Impact",
+  type: "normal",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Focus Blast",
+  type: "fighting",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Drain Punch",
+  type: "fighting",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Brick Break",
+  type: "fighting",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Dark Pulse",
+  type: "dark",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Aura Sphere",
+  type: "fighting",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Bone Rush",
+  type: "ground",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Heal Pulse",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Surf",
+  type: "water",
+  category: "special",
+  video: "",
+  description: "Ataque Water que atinge todos os oponentes.",
+  slots: [["Lapras"], ["Blastoise"], [], [], [], [], [], [], [], []]
 }
 ];
 
