@@ -1,367 +1,309 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<title>Meu Smeargle Perfeito</title>
-
-<style>
-body {
-  background: #111;
-  color: white;
-  font-family: Arial;
-  margin: 0;
-  padding: 20px;
-  text-align: center;
-}
-
-.title { font-size: 36px; margin-bottom: 5px; }
-.subtitle { color: #aaa; margin-bottom: 20px; }
-
-.search { display: flex; justify-content: center; margin-bottom: 20px; }
-#searchInput { width: 320px; padding: 10px; border-radius: 6px; border: none; font-size: 16px; }
-
-.types {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-.type {
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-}
-.all { background:#444; }
-.normal { background:#A8A878; color:#000; }
-.fire { background:#F08030; }
-.water { background:#6890F0; }
-.electric { background:#F8D030; color:#000; }
-.grass { background:#78C850; color:#000; }
-.ice { background:#98D8D8; color:#000; }
-.fighting { background:#C03028; }
-.poison { background:#A040A0; }
-.ground { background:#E0C068; color:#000; }
-.flying { background:#A890F0; color:#000; }
-.psychic { background:#F85888; }
-.bug { background:#A8B820; color:#000; }
-.rock { background:#B8A038; color:#000; }
-.ghost { background:#705898; }
-.dragon { background:#7038F8; }
-.steel { background:#B8B8D0; color:#000; }
-.dark { background:#705848; }
-.fairy { background:#EE99AC; color:#000; }
-
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  transition: opacity 0.2s;
-}
-.card {
-  width: 140px;
-  height: 80px;
-  background: #222;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform .2s, background .2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  text-align: center;
-}
-.card:hover { transform: scale(1.05); background: #333; }
-
-#attackOverlay {
-  position: fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  z-index: 5;
-  overflow-y: auto;
-  padding: 40px 20px;
-  box-sizing: border-box;
-}
-
-#attackPage {
-  position: relative;
-  max-width: 600px;
-  margin: auto;
-  background: #222;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: left;
-  color: white;
-}
-
-#atkVideo iframe {
-  width: 100%;
-  max-width: 560px;
-  height: 315px;
-  border-radius: 10px;
-  margin: 15px auto;
-  display: block;
-}
-
-#atkSlots {
-  margin-top: 15px;
-}
-.slot {
-  background: #1b1b1b;
-  padding: 6px 10px;
-  border-radius: 6px;
-  margin-bottom: 6px;
-  font-size: 14px;
-}
-.slot strong { color: #f8d030; }
-
-.back {
-  padding: 6px 12px;
-  border: none;
-  background: #444;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 10;
-}
-
-/* ===== CATEGORIAS ESPECIAIS ===== */
-.categories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-.cat {
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-}
-.cure { background: #FF69B4; }
-.heal { background: #FFB6C1; color:#000; }
-.target { background: #FF4C4C; }
-.area { background: #4C9EFF; }
-.jump { background: #FFA500; color:#000; }
-.cat.active { box-shadow: 0 0 10px #fff; transform: scale(1.05);}
-</style>
-</head>
-
-<body>
-
-<h1 class="title">Meu Smeargle Perfeito</h1>
-<p class="subtitle">Wiki de ataques Pokémon</p>
-
-<div class="search">
-  <input id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
-</div>
-
-<div class="types">
-  <button class="type all" onclick="setType('all')">Todos</button>
-  <button class="type normal" onclick="setType('normal')">Normal</button>
-  <button class="type fire" onclick="setType('fire')">Fire</button>
-  <button class="type water" onclick="setType('water')">Water</button>
-  <button class="type electric" onclick="setType('electric')">Electric</button>
-  <button class="type grass" onclick="setType('grass')">Grass</button>
-  <button class="type ice" onclick="setType('ice')">Ice</button>
-  <button class="type fighting" onclick="setType('fighting')">Fighting</button>
-  <button class="type poison" onclick="setType('poison')">Poison</button>
-  <button class="type ground" onclick="setType('ground')">Ground</button>
-  <button class="type flying" onclick="setType('flying')">Flying</button>
-  <button class="type psychic" onclick="setType('psychic')">Psychic</button>
-  <button class="type bug" onclick="setType('bug')">Bug</button>
-  <button class="type rock" onclick="setType('rock')">Rock</button>
-  <button class="type ghost" onclick="setType('ghost')">Ghost</button>
-  <button class="type dragon" onclick="setType('dragon')">Dragon</button>
-  <button class="type steel" onclick="setType('steel')">Steel</button>
-  <button class="type dark" onclick="setType('dark')">Dark</button>
-  <button class="type fairy" onclick="setType('fairy')">Fairy</button>
-</div>
-
-<!-- CATEGORIAS -->
-<div class="categories">
-  <button class="cat cure" onclick="toggleCategory('cure')">Cura</button>
-  <button class="cat heal" onclick="toggleCategory('heal')">Heal</button>
-  <button class="cat target" onclick="toggleCategory('target')">Target</button>
-  <button class="cat area" onclick="toggleCategory('area')">Area</button>
-  <button class="cat jump" onclick="toggleCategory('jump')">Pulo</button>
-</div>
-
-<div class="cards" id="cards"></div>
-
-<div id="attackOverlay" onclick="closeAttack()">
-  <div id="attackPage" onclick="event.stopPropagation()">
-    <button class="back" onclick="closeAttack()">⬅ Voltar</button>
-    <h1 id="atkName"></h1>
-    <div id="atkType" style="font-weight:bold; margin-bottom:5px;"></div>
-    <div id="atkVideo"></div>
-    <p id="atkDesc"></p>
-    <div id="atkSlots"></div>
-  </div>
-</div>
-
-<script>
-const searchInput = document.getElementById("searchInput");
-const atkName = document.getElementById("atkName");
-const atkType = document.getElementById("atkType");
-const atkDesc = document.getElementById("atkDesc");
-const atkVideo = document.getElementById("atkVideo");
-const atkSlots = document.getElementById("atkSlots");
-const attackOverlay = document.getElementById("attackOverlay");
-
-let currentType = "all";
-let activeCategories = []; // categorias selecionadas
-
-// ===== ATAQUES =====
+// ===== TODOS OS ATAQUES =====
 const attacks = [
+{
+  name: "Anchor Shot",
+  type: "steel",
+  category: "offense",
+  video: "https://www.youtube.com/watch?v=qQ-_Nm7HgLo",
+  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+  slots: [["Smeargle","Dhelmise"], ["Metagross"], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Tackle",
+  type: "normal",
+  category: "offense",
+  video: "https://www.youtube.com/watch?v=2LWs1F0HH_s",
+  description: "teste",
+  slots: [["Metagross"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Headbutt",
+  type: "normal",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [[], ["Metagross"], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Psychic",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], ["Metagross"], [], [], [], [], [], [], []]
+},
+{
+  name: "Confusion",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "Causa um enorme dano em área",
+  slots: [[], [], [], ["Metagross"], [], [], [], [], [], []]
+},
+{
+  name: "Meteor Mash",
+  type: "steel",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Metagross","Lucario"], [], [], [], ["Metagross"], [], [], [], [], []]
+},
+{
+  name: "Thunder",
+  type: "electric",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], ["Metagross","Lucario"], [], [], [], []]
+},
+{
+  name: "Hyper Beam",
+  type: "normal",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], ["Metagross","Lucario"], [], [], []]
+},
+{
+  name: "Earthquake",
+  type: "ground",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], [], ["Metagross","Lucario"], [], []]
+},
+{
+  name: "Recover",
+  type: "normal",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], [], [], ["Metagross","Lucario"], []]
+},
+{
+  name: "Future Sight",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [[], [], [], [], [], [], [], [], [], ["Metagross","Lucario"]]
+},
+{
+  name: "Giga Impact",
+  type: "normal",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Focus Blast",
+  type: "fighting",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Drain Punch",
+  type: "fighting",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Brick Break",
+  type: "fighting",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Dark Pulse",
+  type: "dark",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Aura Sphere",
+  type: "fighting",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Bone Rush",
+  type: "ground",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Heal Pulse",
+  type: "psychic",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Lucario"], [], [], [], [], [], [], [], [], []]
+},
   {
-    name: "Recover",
-    type: "normal",
-    category: "special",
-    specialCategory: ["cure","heal"],
-    video: "",
-    description: "Restaura HP do Pokémon.",
-    slots: [["Metagross"], [], [], [], [], [], [], [], [], []]
-  },
-  {
-    name: "Flare Blitz",
-    type: "fire",
-    category: "offense",
-    specialCategory: ["target"],
-    video: "",
-    description: "Ataque ofensivo de fogo.",
-    slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
-  },
+  name: "Blaze Kick",
+  type: "fire",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Flame Charge",
+  type: "fire",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
   {
     name: "Heat Wave",
     type: "fire",
     category: "special",
-    specialCategory: ["area"],
     video: "",
     description: "Causa dano e tem chance de queimar o alvo",
+    slots: [
+      ["Infernape"], [], [], [], [], [], [], [], [], []
+    ]
+  },
+{
+  name: "Flamethrower",
+  type: "fire",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], ["Infernape"], [], [], [], [], [], [], []]
+},
+{
+  name: "Fire Punch",
+  type: "fire",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], ["Infernape"], [], [], [], [], [], []]
+},
+{
+  name: "Brave Bird",
+  type: "flying",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Thunder Punch",
+  type: "electric",
+  category: "offense",
+  video: "",
+  description: "Causa dano e tem chance de paralisar o alvo",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Fire Blast",
+  type: "fire",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Magma Storm",
+  type: "fire",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Flare Blitz",
+  type: "fire",
+  category: "offense",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
+{
+  name: "Focus Blast",
+  type: "fighting",
+  category: "special",
+  video: "",
+  description: "teste",
+  slots: [["Blaziken"], [], [], [], [], [], [], [], [], []]
+},
+  {
+    name: "Flare Blitz",
+    type: "fire",
+    category: "offense",
+    video: "",
+    description: "teste",
     slots: [["Infernape"], [], [], [], [], [], [], [], [], []]
   },
   {
-    name: "Flamethrower",
-    type: "fire",
-    category: "special",
-    specialCategory: ["target"],
+    name: "Close Combat",
+    type: "fighting",
+    category: "offense",
     video: "",
-    description: "Ataque de fogo clássico.",
-    slots: [["Blaziken"], [], ["Infernape"], [], [], [], [], [], [], []]
+    description: "teste",
+    slots: [["Infernape"], [], [], [], [], [], [], [], [], []]
   },
   {
-    name: "Fire Punch",
+    name: "Flame Wheel",
     type: "fire",
     category: "offense",
-    specialCategory: ["target"],
     video: "",
-    description: "Ataque de punho de fogo.",
-    slots: [["Blaziken"], [], [], ["Infernape"], [], [], [], [], [], []]
-  }
+    description: "teste",
+    slots: [["Infernape"], [], [], [], [], [], [], [], [], []]
+  },
+  {
+    name: "Fire Pledge",
+    type: "fire",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [["Infernape"], [], [], [], [], [], [], [], [], []]
+  },
+  {
+    name: "Vacuum Wave",
+    type: "fighting",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [["Infernape"], [], [], [], [], [], [], [], [], []]
+  },
+  {
+    name: "Magma Storm",
+    type: "fire",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [["Infernape"], [], [], [], [], [], [], [], [], []]
+  },
+  {
+    name: "Slack Off",
+    type: "normal",
+    category: "special",
+    video: "",
+    description: "teste",
+    slots: [["Infernape"], [], [], [], [], [], [], [], [], []]
+  },
+{
+  name: "Surf",
+  type: "water",
+  category: "special",
+  video: "",
+  description: "Ataque Water que atinge todos os oponentes.",
+  slots: [["Lapras"], ["Blastoise"], [], [], [], [], [], [], [], []]
+}
 ];
-
-// ===== FUNÇÕES =====
-function renderCards() {
-  const cards = document.getElementById("cards");
-  const search = searchInput.value.toLowerCase();
-  cards.innerHTML = "";
-
-  attacks.forEach((atk, i) => {
-    // verifica tipo
-    const typeOk = (currentType === "all" || atk.type === currentType);
-    // verifica categoria especial (se nenhuma selecionada, passa tudo)
-    let catOk = true;
-    if (activeCategories.length > 0) {
-      catOk = atk.specialCategory && atk.specialCategory.some(c => activeCategories.includes(c));
-    }
-
-    if (typeOk && catOk && atk.name.toLowerCase().includes(search)) {
-      cards.innerHTML += `
-        <div class="card" onclick="openAttack(${i})">
-          <div>${atk.name}</div>
-        </div>
-      `;
-    }
-  });
-}
-
-function setType(type) {
-  currentType = type;
-  renderCards();
-}
-
-function toggleCategory(cat) {
-  const index = activeCategories.indexOf(cat);
-  if (index > -1) activeCategories.splice(index, 1);
-  else activeCategories.push(cat);
-  renderCards();
-  updateCategoryButtons();
-}
-
-function updateCategoryButtons() {
-  const buttons = document.querySelectorAll(".cat");
-  buttons.forEach(btn => {
-    if (activeCategories.includes(btn.classList[1])) btn.classList.add("active");
-    else btn.classList.remove("active");
-  });
-}
-
-function openAttack(i) {
-  const atk = attacks[i];
-  atkName.innerText = atk.name;
-  atkType.innerText = atk.type.toUpperCase();
-  atkType.className = atk.type;
-  atkDesc.innerText = atk.description;
-
-  atkVideo.innerHTML = "";
-  if (atk.video) {
-    const id = atk.video.split("v=")[1];
-    atkVideo.innerHTML = `
-      <iframe src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}"
-      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    `;
-  }
-
-  atkSlots.innerHTML = "";
-  for (let j = 0; j < 10; j++) {
-    const list = atk.slots[j] || [];
-    atkSlots.innerHTML += `
-      <div class="slot">
-        <strong>M${j + 1}:</strong> ${list.length ? list.join(", ") : "—"}
-      </div>
-    `;
-  }
-
-  attackOverlay.style.display = "block";
-  document.querySelector(".cards").style.opacity = 0;
-  setTimeout(()=>{document.querySelector(".cards").style.display="none";}, 200);
-}
-
-function closeAttack() {
-  attackOverlay.style.display = "none";
-  atkVideo.innerHTML = "";
-  const cardsEl = document.querySelector(".cards");
-  cardsEl.style.display = "flex";
-  setTimeout(()=>{cardsEl.style.opacity = 1;}, 50);
-}
-
-renderCards();
-</script>
-
-</body>
-</html>
