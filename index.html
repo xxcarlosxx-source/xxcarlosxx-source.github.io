@@ -15,15 +15,8 @@ body {
 }
 
 /* ===== TÍTULO ===== */
-.title {
-  font-size: 36px;
-  margin-bottom: 5px;
-}
-
-.subtitle {
-  color: #aaa;
-  margin-bottom: 20px;
-}
+.title { font-size: 36px; margin-bottom: 5px; }
+.subtitle { color: #aaa; margin-bottom: 20px; }
 
 /* ===== BUSCA ===== */
 .search {
@@ -31,7 +24,6 @@ body {
   justify-content: center;
   margin-bottom: 20px;
 }
-
 #searchInput {
   width: 320px;
   padding: 10px;
@@ -40,7 +32,7 @@ body {
   font-size: 16px;
 }
 
-/* ===== TIPAGENS ===== */
+/* ===== TIPOS ===== */
 .types {
   display: flex;
   flex-wrap: wrap;
@@ -48,7 +40,6 @@ body {
   justify-content: center;
   margin-bottom: 25px;
 }
-
 .type {
   border: none;
   padding: 8px 14px;
@@ -57,11 +48,10 @@ body {
   cursor: pointer;
   color: white;
 }
-
-.fire { background: #F08030; }
-.water { background: #6890F0; }
-.steel { background: #B8B8D0; color: #000; }
-.all { background: #444; }
+.fire { background:#F08030; }
+.water { background:#6890F0; }
+.steel { background:#B8B8D0; color:#000; }
+.all { background:#444; }
 
 /* ===== CARDS ===== */
 .cards {
@@ -70,45 +60,36 @@ body {
   gap: 20px;
   justify-content: center;
 }
-
 .card {
   width: 200px;
   background: #222;
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform .2s;
 }
-
-.card:hover {
-  transform: scale(1.05);
-}
-
+.card:hover { transform: scale(1.05); }
 .card img {
   width: 100%;
   border-radius: 6px;
 }
 
-.card h3 {
-  margin-top: 10px;
-}
-
-/* ===== PÁGINA DO ATAQUE ===== */
-#attackPage {
-  display: none;
-  white-space: pre-line; /* 🔥 importante para quebrar linhas */
-}
-
+/* ===== PÁGINA ATAQUE ===== */
+#attackPage { display: none; }
 #attackPage img {
   width: 300px;
   border-radius: 10px;
 }
-
+#atkSlots {
+  text-align: left;
+  white-space: pre-line;
+  max-width: 500px;
+  margin: 15px auto;
+}
 .back {
-  margin-top: 20px;
   padding: 10px 20px;
-  background: #444;
   border: none;
+  background: #444;
   color: white;
   border-radius: 6px;
   cursor: pointer;
@@ -122,7 +103,7 @@ body {
 <p class="subtitle">Wiki de ataques Pokémon</p>
 
 <div class="search">
-  <input type="text" id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
+  <input id="searchInput" placeholder="Buscar ataque..." onkeyup="renderCards()">
 </div>
 
 <div class="types">
@@ -134,67 +115,66 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<!-- ===== PÁGINA DO ATAQUE ===== -->
+<!-- PÁGINA DO ATAQUE -->
 <div id="attackPage">
   <h1 id="atkName"></h1>
   <img id="atkGif">
   <p id="atkDesc"></p>
-  <p id="atkSlots"></p>
+  <div id="atkSlots"></div>
   <button class="back" onclick="closeAttack()">⬅ Voltar</button>
 </div>
 
 <script>
-// ===== DADOS DOS ATAQUES =====
+// ===== DADOS =====
 const attacks = [
-  {
-    name: "Anchor Shot",
-    type: "steel",
-    gif: "anchor-shot.gif",
-    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-    slots: {
-      M1: ["Smeargle", "Dhelmise"],
-      M2: ["Metagross"],
-      M3: [],
-      M4: ["Scizor"],
-      M5: [],
-      M6: [],
-      M7: [],
-      M8: [],
-      M9: [],
-      M10: []
-    }
-  },
-  {
-    name: "Fire Blast",
-    type: "fire",
-    gif: "fire-blast.gif",
-    description: "Ataque Fire poderoso com chance de causar Burn.",
-    users: ["Charizard", "Typhlosion"]
-  },
-  {
-    name: "Surf",
-    type: "water",
-    gif: "surf.gif",
-    description: "Ataque Water que atinge todos os oponentes.",
-    users: ["Lapras", "Blastoise"]
-  }
+ {
+  name: "Anchor Shot",
+  type: "steel",
+  gif: "anchor-shot.gif",
+  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+  slots: [
+    ["Smeargle", "Dhelmise"],
+    ["Metagross"],
+    [],
+    ["Scizor"]
+  ]
+ },
+ {
+  name: "Fire Blast",
+  type: "fire",
+  gif: "fire-blast.gif",
+  description: "Ataque Fire poderoso com chance de Burn.",
+  slots: [
+    ["Charizard"],
+    ["Typhlosion"]
+  ]
+ },
+ {
+  name: "Surf",
+  type: "water",
+  gif: "surf.gif",
+  description: "Ataque Water que atinge todos os oponentes.",
+  slots: [
+    ["Lapras"],
+    ["Blastoise"]
+  ]
+ }
 ];
 
 let currentType = "all";
 
-// ===== RENDERIZAR CARDS =====
+// ===== RENDER =====
 function renderCards() {
-  const cardsDiv = document.getElementById("cards");
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  cardsDiv.innerHTML = "";
+  const cards = document.getElementById("cards");
+  const search = searchInput.value.toLowerCase();
+  cards.innerHTML = "";
 
-  attacks.forEach((atk, index) => {
-    if (
-      (currentType === "all" || atk.type === currentType) &&
-      atk.name.toLowerCase().includes(search)
-    ) {
-      cardsDiv.innerHTML += `
-        <div class="card" onclick="openAttack(${index})">
+  attacks.forEach((atk, i) => {
+    if ((currentType === "all" || atk.type === currentType) &&
+        atk.name.toLowerCase().includes(search)) {
+
+      cards.innerHTML += `
+        <div class="card" onclick="openAttack(${i})">
           <img src="${atk.gif}">
           <h3>${atk.name}</h3>
         </div>
@@ -203,7 +183,6 @@ function renderCards() {
   });
 }
 
-// ===== FILTRO =====
 function setType(type) {
   currentType = type;
   renderCards();
@@ -213,41 +192,29 @@ function setType(type) {
 function openAttack(i) {
   const atk = attacks[i];
 
-  document.getElementById("atkName").innerText = atk.name;
-  document.getElementById("atkGif").src = atk.gif;
-  document.getElementById("atkDesc").innerText = atk.description;
+  atkName.innerText = atk.name;
+  atkGif.src = atk.gif;
+  atkDesc.innerText = atk.description;
 
   let text = "";
+  const max = 10;
 
-  // 👉 ataques com slots (M1–M10)
-  if (atk.slots) {
-    for (let key in atk.slots) {
-      if (atk.slots[key].length > 0) {
-        text += `${key}: ${atk.slots[key].join(", ")}\n`;
-      } else {
-        text += `${key}: —\n`;
-      }
-    }
+  for (let j = 0; j < max; j++) {
+    const list = atk.slots[j] || [];
+    text += `M${j+1}: ${list.length ? list.join(", ") : "—"}\n`;
   }
 
-  // 👉 ataques antigos com users
-  else if (atk.users) {
-    text = "Pokémon: " + atk.users.join(", ");
-  }
-
-  document.getElementById("atkSlots").innerText = text;
+  atkSlots.innerText = text;
 
   document.querySelector(".cards").style.display = "none";
-  document.getElementById("attackPage").style.display = "block";
+  attackPage.style.display = "block";
 }
 
-// ===== VOLTAR =====
 function closeAttack() {
-  document.getElementById("attackPage").style.display = "none";
+  attackPage.style.display = "none";
   document.querySelector(".cards").style.display = "flex";
 }
 
-// INICIAL
 renderCards();
 </script>
 
