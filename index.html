@@ -115,7 +115,7 @@ body {
 
 <div class="cards" id="cards"></div>
 
-<!-- PÁGINA DO ATAQUE -->
+<!-- ===== PÁGINA DO ATAQUE ===== -->
 <div id="attackPage">
   <h1 id="atkName"></h1>
   <img id="atkGif">
@@ -125,55 +125,67 @@ body {
 </div>
 
 <script>
-// ===== DADOS =====
+// ===== DADOS DOS ATAQUES =====
 const attacks = [
- {
-  name: "Anchor Shot",
-  type: "steel",
-  gif: "anchor-shot.gif",
-  description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
-  slots: [
-    ["Smeargle", "Dhelmise"],
-    ["Metagross"],
-    [],
-    ["Scizor"]
-  ]
- },
- {
-  name: "Fire Blast",
-  type: "fire",
-  gif: "fire-blast.gif",
-  description: "Ataque Fire poderoso com chance de Burn.",
-  slots: [
-    ["Charizard"],
-    ["Typhlosion"]
-  ]
- },
- {
-  name: "test",
-  type: "ghost",
-  gif: "fire-blast.gif",
-  description: "test.",
-  slots: [
-    [""],
-    [""]
-  ]
- },
- {
-  name: "Surf",
-  type: "water",
-  gif: "surf.gif",
-  description: "Ataque Water que atinge todos os oponentes.",
-  slots: [
-    ["Lapras"],
-    ["Blastoise"]
-  ]
- }
+  {
+    name: "Anchor Shot",
+    type: "steel",
+    gif: "anchor-shot.gif",
+    description: "Ataque Steel que impede o Pokémon adversário de fugir ou trocar.",
+    slots: {
+      M1: ["Smeargle", "Dhelmise"],
+      M2: ["Metagross"],
+      M3: [],
+      M4: ["Scizor"],
+      M5: [],
+      M6: [],
+      M7: [],
+      M8: [],
+      M9: [],
+      M10: []
+    }
+  },
+  {
+    name: "Fire Blast",
+    type: "fire",
+    gif: "fire-blast.gif",
+    description: "Ataque Fire poderoso com chance de Burn.",
+    slots: {
+      M1: ["Charizard"],
+      M2: ["Typhlosion"],
+      M3: [],
+      M4: [],
+      M5: [],
+      M6: [],
+      M7: [],
+      M8: [],
+      M9: [],
+      M10: []
+    }
+  },
+  {
+    name: "Surf",
+    type: "water",
+    gif: "surf.gif",
+    description: "Ataque Water que atinge todos os oponentes.",
+    slots: {
+      M1: ["Lapras"],
+      M2: ["Blastoise"],
+      M3: [],
+      M4: [],
+      M5: [],
+      M6: [],
+      M7: [],
+      M8: [],
+      M9: [],
+      M10: []
+    }
+  }
 ];
 
 let currentType = "all";
 
-// ===== RENDER =====
+// ===== RENDER CARDS =====
 function renderCards() {
   const cards = document.getElementById("cards");
   const search = searchInput.value.toLowerCase();
@@ -207,11 +219,11 @@ function openAttack(i) {
   atkDesc.innerText = atk.description;
 
   let text = "";
-  const max = 10;
 
-  for (let j = 0; j < max; j++) {
-    const list = atk.slots[j] || [];
-    text += `M${j+1}: ${list.length ? list.join(", ") : "—"}\n`;
+  for (let m = 1; m <= 10; m++) {
+    const key = "M" + m;
+    const list = atk.slots[key] || [];
+    text += `M${m}: ${list.length ? list.join(", ") : "—"}\n`;
   }
 
   atkSlots.innerText = text;
