@@ -11,19 +11,33 @@ body {
   font-family: Arial;
   margin: 0;
   padding: 20px;
+  text-align: center;
 }
 
 /* ===== TÍTULO ===== */
 .title {
-  font-size: 48px;
+  font-size: 36px;
   margin-bottom: 5px;
-  text-align: center;
 }
 
 .subtitle {
   color: #aaa;
-  margin-bottom: 30px;
-  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ===== BUSCA ===== */
+.search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#searchInput {
+  width: 320px;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 16px;
 }
 
 /* ===== TIPAGENS ===== */
@@ -31,8 +45,8 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 20px;
   justify-content: center;
+  margin-bottom: 25px;
 }
 
 .type {
@@ -44,7 +58,7 @@ body {
   color: white;
 }
 
-/* CORES DOS TIPOS */
+/* CORES DAS TIPAGENS */
 .normal { background: #A8A878; color: #000; }
 .fire { background: #F08030; }
 .water { background: #6890F0; }
@@ -77,17 +91,22 @@ body {
   padding: 10px;
   border-radius: 10px;
   text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(255,255,255,0.2);
 }
 
 .card img {
   width: 100%;
   border-radius: 6px;
+}
+
+.card h3 {
+  margin-top: 10px;
+  font-size: 18px;
 }
 </style>
 </head>
@@ -97,9 +116,19 @@ body {
 <h1 class="title">Meu Smeargle Perfeito</h1>
 <p class="subtitle">Wiki de ataques Pokémon</p>
 
+<!-- BUSCA -->
+<div class="search">
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Buscar ataque..."
+    onkeyup="searchAttack()"
+  >
+</div>
+
+<!-- TIPAGENS -->
 <div class="types">
   <button onclick="filterType('all')" class="type all">Todos</button>
-
   <button onclick="filterType('normal')" class="type normal">Normal</button>
   <button onclick="filterType('fire')" class="type fire">Fire</button>
   <button onclick="filterType('water')" class="type water">Water</button>
@@ -118,31 +147,48 @@ body {
   <button onclick="filterType('steel')" class="type steel">Steel</button>
 </div>
 
+<!-- CARDS -->
 <div class="cards">
 
   <div class="card" data-type="steel">
-    <img src="anchor-shot.gif">
+    <img src="anchor-shot.gif" alt="Anchor Shot">
     <h3>Anchor Shot</h3>
   </div>
 
   <div class="card" data-type="fire">
-    <img src="fire-blast.gif">
+    <img src="fire-blast.gif" alt="Fire Blast">
     <h3>Fire Blast</h3>
   </div>
 
   <div class="card" data-type="water">
-    <img src="surf.gif">
+    <img src="surf.gif" alt="Surf">
     <h3>Surf</h3>
   </div>
 
 </div>
 
+<!-- SCRIPT -->
 <script>
 function filterType(type) {
   const cards = document.querySelectorAll('.card');
 
   cards.forEach(card => {
     if (type === 'all' || card.dataset.type === type) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function searchAttack() {
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    const name = card.querySelector('h3').innerText.toLowerCase();
+
+    if (name.includes(input)) {
       card.style.display = 'block';
     } else {
       card.style.display = 'none';
